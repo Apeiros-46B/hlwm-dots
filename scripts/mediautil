@@ -1,0 +1,56 @@
+#!/bin/bash
+
+usage() {
+    printf "Usage: mediautil <vol|media> <inc|dec|prev|toggle|next>\n"
+    exit 1
+}
+
+if [[ ! $1 ]]; then
+    usage
+fi
+
+if [[ ! $2 ]]; then
+    usage
+fi
+
+case $1 in
+    vol)
+        case $2 in
+            inc)
+                pamixer --allow-boost -i 4
+                ;;
+
+            dec)
+                pamixer --allow-boost -d 4
+                ;;
+
+            *)
+                usage
+                ;;
+        esac
+        ;;
+          
+    media)
+        case $2 in
+            prev)
+                playerctl previous
+                ;;
+            
+            toggle)
+                playerctl play-pause
+                ;;
+
+            next)
+                playerctl next
+                ;;
+
+            *)
+                usage
+                ;;
+        esac
+        ;;
+
+    *)
+        usage
+        ;;
+esac

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+usage() {
+    printf "Usage: picomutil <toggle|start>\n"
+    exit 1
+}
+
+kill() {
+    killall -q picom
+}
+
+start() {
+    picom --config /home/$(whoami)/.config/herbstluftwm/picom.conf &
+}
+
+if [[ ! $1 ]]; then
+    usage
+fi
+
+case $1 in
+    start)
+        kill
+        start
+        ;;
+
+    toggle)
+        if pgrep -x picom > /dev/null; then
+            kill
+        else
+            start
+        fi
+        ;;
+
+    *)
+        usage
+        ;;
+esac

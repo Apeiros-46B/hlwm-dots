@@ -1,0 +1,312 @@
+#!/usr/bin/env bash
+
+# -- helpers -- #
+
+# hc function for convenience #
+hc() {
+    herbstclient "$@"
+}
+
+# emits reload hook #
+hc emit_hook reload
+
+# info #
+user="$(whoami)"
+script_dir="/home/${user}/.config/herbstluftwm/scripts"
+bg_dir="/home/${user}/.config/herbstluftwm/wallpapers"
+xrdb="/home/${user}/.config/herbstluftwm/xrdb"
+
+# add scripts dir to PATH #
+export PATH="$script_dir:$PATH"
+
+# helper functions for slightly cleaner config #
+bind() {
+    bind="$1"; shift
+    hc keybind "$bind" "$@"
+}
+
+msebind() {
+    bind="$1"; shift
+    hc mousebind "$bind" "$@"
+}
+
+spawn() {
+    bind="$1"; shift
+    hc keybind "$bind" spawn "$@"
+}
+
+setting() {
+    set="$1"; shift
+    hc set "$set" "$@"
+}
+
+setattr() {
+    attr="$1"; shift
+    hc attr "$attr" "$@"
+}
+
+setrule() {
+    hc rule "$@"
+}
+
+# function for getting colors from xrdb #
+getcolor() {
+    local result_name="$1"
+    local result="$(echo $xrdb | egrep -w "$result_name" | awk '{print $2}')"
+    eval $result_name="$result"
+}
+
+# -- autostart -- #
+
+# set root client color #
+xsetroot -solid "#1d2226"
+
+# wallpaper #
+feh --bg-scale ${bg_dir}/everforest_stairs.jpg
+
+# alternate wallpaper options #
+#feh --bg-scale ${bg_dir}/Light-Floral-01.png
+#feh --bg-scale ${bg_dir}/random-nord.png
+#feh --bg-scale ${bg_dir}/nord-noice.jpg
+#feh --bg-stretch ${bg_dir}/waves.jpg
+
+# key repeat rate #
+xset r rate 350 60
+
+# xrdb #
+xrdb $xrdb
+xrdb="$(xrdb -query)"
+
+for num in {0..15}; do
+    getcolor "color$num"
+done
+
+for val in background foreground; do
+    getcolor "$val"
+done
+
+# picom #
+picomutil start
+
+# polybar #
+polybarutil start
+
+# -- keybinds -- #
+
+# - prerequisites - #
+
+# remove all existing binds #
+hc keyunbind --all
+hc mouseunbind --all
+
+# super and alt keys #
+Mod=Mod4 # use the super key as the main modifier
+Alt=Mod1 # use alt as the secondary modifier
+
+# - useful stuff - #
+
+# window manager core keybinds #
+bind $Mod-Shift-q                       quit
+bind $Mod-Shift-r                       reload
+bind $Mod-c                             close
+bind $Alt-F4                            close
+
+# rofi #
+spawn $Mod-space                        rofi_run
+spawn $Mod-x                            rofi_run -l
+
+# utilities #
+spawn $Mod-Shift-Escape                 kitty -e btop
+spawn $Mod-u                            pavucontrol
+spawn $Mod-Shift-s                      flameshot gui
+spawn $Mod-Shift-p                      picomutil toggle
+spawn $Mod-Shift-d                      polybarutil toggle
+
+# terminals #
+spawn $Mod-Return                       kitty
+spawn $Mod-Shift-Return                 alacritty
+spawn $Mod-Control-Return               cool-retro-term
+
+# media & volume control #
+spawn Control-F6                        mediautil media prev
+spawn Control-F7                        mediautil media toggle
+spawn Control-F8                        mediautil media next
+
+spawn Control-F2                        mediautil vol dec
+spawn Control-F3                        mediautil vol inc
+
+# - client management - #
+
+# focusing clients #
+bind $Mod-Left                          focus left
+bind $Mod-Down                          focus down
+bind $Mod-Up                            focus up
+bind $Mod-Right                         focus right
+bind $Mod-h                             focus left
+bind $Mod-j                             focus down
+bind $Mod-k                             focus up
+bind $Mod-l                             focus right
+
+# moving clients in tiling and floating mode #
+bind $Mod-Shift-Left                    shift left
+bind $Mod-Shift-Down                    shift down
+bind $Mod-Shift-Up                      shift up
+bind $Mod-Shift-Right                   shift right
+bind $Mod-Shift-h                       shift left
+bind $Mod-Shift-j                       shift down
+bind $Mod-Shift-k                       shift up
+bind $Mod-Shift-l                       shift right
+
+# - frames -
+
+# create an empty frame at the specified direction #
+bind $Mod-Shift-u                       split   bottom  0.5
+bind $Mod-Shift-o                       split   right   0.5
+
+# let the current frame explode into subframes #
+bind $Mod-Control-space                 split explode 
+
+# resizing frames and floating clients #
+_resizestep=0.02
+bind $Alt-h                             resize left  +$_resizestep
+bind $Alt-j                             resize down  +$_resizestep
+bind $Alt-k                             resize up    +$_resizestep
+bind $Alt-l                             resize right +$_resizestep
+bind $Alt-Left                          resize left  +$_resizestep
+bind $Alt-Down                          resize down  +$_resizestep
+bind $Alt-Up                            resize up    +$_resizestep
+bind $Alt-Right                         resize right +$_resizestep
+
+# - tags -
+
+# tag names & keys #
+tag_names=( {1..8} )
+tag_keys=( {1..8} 0 )
+
+# tag navigation & sending windows to tags #
+hc rename default "${tag_names[0]}" || true
+for i in "${!tag_names[@]}" ; do
+    hc add "${tag_names[$i]}"
+    key="${tag_keys[$i]}"
+    if ! [ -z "$key" ] ; then
+        bind "$Mod-$key" use_index "$i"
+        bind "$Mod-Shift-$key" move_index "$i"
+    fi
+done
+
+# cycle through tags #
+bind $Mod-period                        use_index +1 --skip-visible
+bind $Mod-comma                         use_index -1 --skip-visible
+
+# - misc - #
+
+# layouting #
+bind $Mod-r                             remove
+bind $Mod-s                             floating toggle
+bind $Mod-f                             fullscreen toggle
+bind $Mod-p                             pseudotile toggle
+bind $Mod-Shift-f                       set_attr clients.focus.floating toggle
+bind $Mod-m                             set_attr clients.focus.minimized true
+bind $Mod-Shift-m                       jumpto last-minimized
+
+# mouse #
+msebind $Mod-Button1                    move
+msebind $Mod-Button2                    zoom
+msebind $Mod-Button3                    resize
+msebind $Alt-Button2                    call close
+
+# focus cycling #
+bind $Mod-BackSpace                     cycle_monitor
+bind $Mod-Tab                           cycle_all +1
+bind $Mod-Shift-Tab                     cycle_all -1
+bind $Alt-Tab                           cycle_all +1
+bind $Alt-Shift-Tab                     cycle_all -1
+bind Control-Tab                        cycle_frame +1
+bind Control-Shift-Tab                  cycle_frame -1
+bind $Mod-Control-c                     cycle
+bind $Mod-i                             jumpto urgent
+
+# -- theme -- #
+
+# frame & window management stuff #
+setattr    theme.tiling.reset           1
+setattr    theme.floating.reset         1
+setting    frame_border_active_color    '#a7c080'
+setting    frame_border_normal_color    '#445055'
+setting    frame_bg_normal_color        '#2b333900'
+setting    frame_bg_active_color        '#2b333900'
+setting    frame_border_width           2
+setting    always_show_frame            on
+setting    frame_bg_transparent         on
+setting    frame_transparent_width      0
+setting    frame_gap                    4
+
+# title & borders #
+setattr    theme.title_height           16
+setattr    theme.title_font             'JetBrainsMono Nerd Font:pixelsize=14:style=bold'
+setattr    theme.padding_top            6
+setattr    theme.active.color           '#89beba'
+setattr    theme.title_color            '#2b3339'
+setattr    theme.normal.color           '#445055'
+setattr    theme.urgent.color           '#e68183'
+setattr    theme.normal.title_color     '#d8caac'
+setattr    theme.inner_width            1
+setattr    theme.inner_color            black
+setattr    theme.border_width           0
+setattr    theme.floating.border_width  0
+setattr    theme.floating.outer_width   1
+setattr    theme.floating.outer_color   black
+setattr    theme.active.inner_color     '#89beba'
+setattr    theme.urgent.inner_color     '#e68183'
+setattr    theme.normal.inner_color     '#303c42'
+
+# copy inner color to outer_color #
+for state in active urgent normal ; do
+    hc substitute C theme.${state}.inner_color \
+        attr theme.${state}.outer_color C
+done
+
+setattr    theme.active.outer_width     1
+setattr    theme.background_color       '#141414'
+
+# gaps, padding & margins #
+setting    window_gap                   8
+setting    frame_padding                0
+setting    smart_window_surroundings    off
+setting    smart_frame_surroundings     on
+setting    mouse_recenter_gap           0
+
+# -- rules & other settings -- #
+
+# - rules - #
+
+# remove existing rules #
+hc unrule -F
+
+# set new rules #
+setrule                                 focus=on # normally focus new clients
+setrule                                 floatplacement=smart
+setrule                                 windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
+setrule                                 windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
+setrule                                 windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+
+# - settings - #
+
+# set settings #
+setting    tree_style                   '╾│ ├└╼─┐'
+setting    focus_follows_mouse          1 # sloppy focus
+setting    raise_on_focus               1
+setting    raise_on_click               1
+
+# - misc - #
+
+# set grid layout for all tags
+for i in {1..8}; do
+    layout="$(hc dump $i)"
+    hc load $i "${layout/vertical/grid}"
+done
+
+# -- finishing up -- #
+
+# unlock #
+hc unlock

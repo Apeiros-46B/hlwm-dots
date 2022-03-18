@@ -1,0 +1,54 @@
+! -- Misc Options -- !
+
+! dpi
+Xft.dpi: 96 
+
+! xterm font
+xterm*font: *-fixed-*-*-*-18-*
+
+! -- Colors -- !
+
+! misc
+*.foreground:   #d8caac
+*.background:   #2b3339
+*.cursorColor:  #d8caac
+
+! gray
+*.color0:       #445055
+*.color8:       #303C42
+
+! red
+*.color1:       #e68183
+*.color9:       #e68183
+
+! green
+*.color2:       #a7c080
+*.color10:      #a7c080
+
+! yellow
+*.color3:       #d9bb80
+*.color11:      #d9bb80
+
+! blue
+*.color4:       #89beba
+*.color12:      #89beba
+
+! purple
+*.color5:       #d3a0bc
+*.color13:      #d3a0bc
+
+! cyan
+*.color6:       #87c095
+*.color14:      #87c095
+
+! white
+*.color7:       #607279
+*.color15:      #384348
+
+! Font settings
+Xft.hinting: 1
+Xft.hintstyle: hintslight
+Xft.antialias: 1
+Xft.rgba: rgb
+
+! vim:ft=xdefaults

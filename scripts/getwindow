@@ -1,0 +1,35 @@
+#!/bin/bash
+
+WM_DESKTOP=$(xdotool getwindowfocus)
+FAILED="XGetWindowProperty[_NET_ACTIVE_WINDOW] failed (code=1)"
+
+if [ $WM_DESKTOP == "12582913" ]; then
+
+	echo "Desktop"
+
+elif [ $WM_DESKTOP != "1883" ]; then
+
+	WM_CLASS=$(xprop -id $(xdotool getactivewindow 2> /dev/null ) WM_CLASS > /dev/null | awk 'NF {print $NF}' | sed 's/"/ /g')
+	WM_NAME=$(xprop -id $(xdotool getactivewindow 2> /dev/null ) WM_NAME > /dev/null | cut -d '=' -f 2 | awk -F\" '{ print $2 }')
+
+	if [[ $WM_CLASS == 'Brave-browser' ]]; then
+		echo "Brave"
+	elif [[ $WM_CLASS == 'kitty' ]]; then
+		if [[ "$WM_NAME" == *"nvim"* ]] || [[ "$WM_NAME" == *"conf"* ]]; then
+            echo "Neovim"
+        else
+            echo "Terminal"
+        fi
+	elif [[ $WM_CLASS == 'Alacritty' ]]; then
+		if [[ "$WM_NAME" == *"nvim"* ]] || [[ "$WM_NAME" == *"conf"* ]]; then
+            echo "Neovim"
+        else
+            echo "Alacritty"
+        fi
+    elif [[ "$WM_CLASS" == "$FAILED" ]] || [[ "$WM_NAME" == "" ]]; then
+        echo "Desktop"
+    else
+		echo "$WM_NAME"
+	fi
+
+fi
