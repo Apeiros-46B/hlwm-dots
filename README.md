@@ -22,6 +22,4 @@ Dunst config isn't really done, so notifications look kinda out of place
 
 ### Installation:
 
-If you have all the required apps/fonts, just navigate to `~/.config` and clone this repository, then rename the folder to `herbstluftwm`
-
-Copy the `rofi` directory to `~/.config`, and then log into herbstluftwm
+If you have all the required apps/fonts, just navigate to `~/.config` and clone this repository, then `cd` into `hlwm-dots` and run the `install.sh` script
