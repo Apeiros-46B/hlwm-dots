@@ -1,0 +1,68 @@
+#!/bin/bash
+
+hlwm_conf_dir="$HOME/.config/herbstluftwm/"
+
+openconfig() {
+    orig_dir="$(pwd)"
+
+    cd "$hlwm_conf_dir"
+    nvim "$@"
+    
+    cd "$orig_dir"
+    
+    exit 0
+}
+
+usage() {
+    printf "Usage: confhlwm [hlwm|polybar|rofi|picom|dunst|xrdb|scripts|kitty|PATH/TO/FILE]\n"
+    printf "The herbstluftwm autostart file will be opened if no arguments are provided.\n"
+    printf "If you specify a path to a file, the file will be opened as long as it exists.\n"
+    exit 1
+}
+
+if [[ ! $1 ]]; then
+    openconfig autostart
+else
+    case $1 in
+        hlwm)
+            openconfig autostart
+            ;;
+
+        polybar)
+            openconfig polybar
+            ;;
+
+        rofi)
+            openconfig rofi
+            ;;
+
+        picom)
+            openconfig picom.conf
+            ;;
+
+        dunst)
+            openconfig dunst
+            ;;
+
+        xrdb)
+            openconfig xrdb
+            ;;
+
+        scripts)
+            openconfig scripts
+            ;;
+
+        kitty)
+            openconfig kitty/kitty.conf
+            ;;
+
+        *)
+            if ls "${hlwm_conf_dir}/$1" > /dev/null 2>&-; then
+                openconfig $1
+            else
+                usage
+            fi
+            ;;
+    esac
+fi
+            
