@@ -197,8 +197,8 @@ else
     echo -e "${prefix3}Running \"${resetb}ln -s ${greenb}~/.config/herbstluftwm/rofi/config.rasi ${greenb}~/.config/rofi/config.rasi${reset}\"..."
 
     # make rofi config dir & symlink
-    mkdir rofi
-    ln -s $HOME/.config/herbstluftwm/rofi/config.rasi $HOME/.config/rofi/config.rasi
+    mkdir -p rofi
+    ln -s "$HOME/.config/herbstluftwm/rofi/config.rasi" "$HOME/.config/rofi/config.rasi"
 
     # final msgs
     echo -e "${prefix3}Finished linking rofi configuration."
