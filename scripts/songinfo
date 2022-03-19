@@ -1,13 +1,11 @@
 #!/bin/bash
 
-playerstatus="  "
-playerstatus+=$(playerctl -p spotify metadata artist 2>&-)
+playerstatus=$(playerctl -p spotify metadata artist 2>&-)
 playerstatus+=" - "
 playerstatus+=$(playerctl -p spotify metadata title 2>&-)
-playerstatus+="  "
 
 if pgrep -x spotify > /dev/null; then
-	echo $playerstatus
+	echo "  $playerstatus  "
 else
 	echo "  Nothing playing  "
 fi
