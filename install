@@ -100,7 +100,7 @@ else
     # --installation--
 
     # move hlwm-dots to herbstluftwm
-    mv hlwm herbstluftwm &
+    mv hlwm-dots herbstluftwm &
     #sleep 5 &
         
     # get pid of mv process
@@ -184,7 +184,7 @@ else
 
     # make rofi config dir & symlink
     mkdir rofi
-    ln -s herbstluftwm/rofi/config.rasi rofi/config.rasi
+    ln -s ./herbstluftwm/rofi/config.rasi ./rofi/config.rasi
 
     # final msgs
     echo -e "${prefix3}Finished linking rofi configuration."

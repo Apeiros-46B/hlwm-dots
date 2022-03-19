@@ -198,7 +198,7 @@ else
 
     # make rofi config dir & symlink
     mkdir rofi
-    ln -s herbstluftwm/rofi/config.rasi rofi/config.rasi
+    ln -s ./herbstluftwm/rofi/config.rasi ./rofi/config.rasi
 
     # final msgs
     echo -e "${prefix3}Finished linking rofi configuration."
