@@ -3,8 +3,6 @@ Config files for my herbstluftwm setup (partially finished)
 
 ### Notes:
 
-Kitty config isn't included here yet, since I plan to use a different terminal
-
 Dunst config isn't really done, so notifications look kinda out of place
 
 ### Required apps/fonts:
@@ -23,3 +21,5 @@ Dunst config isn't really done, so notifications look kinda out of place
 ### Installation:
 
 If you have all the required apps/fonts, just navigate to `~/.config` and clone this repository, then `cd` into `hlwm-dots` and run the `install.sh` script
+
+Add the following in your shell config: `source $HOME/.config/herbstluftwm/scripts/add-scripts-to-path`

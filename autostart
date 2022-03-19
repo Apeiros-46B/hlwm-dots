@@ -17,7 +17,7 @@ bg_dir="/home/${user}/.config/herbstluftwm/wallpapers"
 xrdb="/home/${user}/.config/herbstluftwm/xrdb"
 
 # add scripts dir to PATH #
-export PATH="$script_dir:$PATH"
+source $script_dir/add-scripts-to-path
 
 # helper functions for slightly cleaner config #
 bind() {
@@ -112,8 +112,8 @@ bind $Mod-c                             close
 bind $Alt-F4                            close
 
 # rofi #
-spawn $Mod-space                        rofi_run
-spawn $Mod-x                            rofi_run -l
+spawn $Mod-space                        rofiutil 
+spawn $Mod-x                            rofiutil -l
 
 # utilities #
 spawn $Mod-Shift-Escape                 kitty -e btop
@@ -123,7 +123,7 @@ spawn $Mod-Shift-p                      picomutil toggle
 spawn $Mod-Shift-d                      polybarutil toggle
 
 # terminals #
-spawn $Mod-Return                       kitty
+spawn $Mod-Return                       kitty -c "/home/$user/.config/herbstluftwm/kitty/kitty.conf"
 spawn $Mod-Shift-Return                 alacritty
 spawn $Mod-Control-Return               cool-retro-term
 

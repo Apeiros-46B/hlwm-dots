@@ -6,5 +6,5 @@ configuration {
 	hide-scrollbar: false;
 	kb-cancel: "Escape,Alt+F1";
 }
-@import "/home/apeiros/.config/rofi/everforest.rasi"
-@theme "/home/apeiros/.config/rofi/everforest.rasi"
+@import "~/.config/herbstluftwm/rofi/theme.rasi"
+@theme "~/.config/herbstluftwm/rofi/theme.rasi"

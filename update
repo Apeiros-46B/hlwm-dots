@@ -1,0 +1,208 @@
+#!/bin/bash
+
+# ---variables & functions---
+
+# helper function for spinner character
+get_next_spinner() {
+    case $spinner_char in
+        "|")
+            spinner_char="/"
+            ;;
+
+        "/")
+            spinner_char="-"
+            ;;
+
+        "-")
+            spinner_char="\\"
+            ;;
+
+        "\\")
+            spinner_char="|"
+            ;;
+    esac
+}
+
+# helper function for resetting local changes and merging remote changes
+pull() {
+    git fetch
+    git reset --hard HEAD
+    git merge '@{u}'
+}
+
+# misc
+reset="\e[0m"
+resetb="\e[0;1m"
+
+# colors (& bold versions)
+red="\e[31m"
+redb="\e[1;31m"
+green="\e[32m"
+greenb="\e[1;32m"
+blue="\e[34m"
+blueb="\e[1;34m"
+purple="\e[35m"
+purpleb="\e[1;35m"
+
+# presets
+prefix="\n${blueb}:: ${resetb}"
+prefix2="${purpleb}==> ${resetb}"
+prefix3="${greenb}   --> ${reset}"
+prefixask="${blueb}--> ${reset}"
+gap="    "
+option_N="${reset}[${red}y${reset}/${greenb}N${reset}]"
+option_Y="${reset}[${greenb}Y${reset}/${red}n${reset}]"
+
+# time at execution of the script
+time_at_exec="$(date +%m-%d-%y--%H-%M-%S)"
+
+# ---main config backup & update---
+
+# backup dir
+backup_dir="hlwm-backups/$time_at_exec"
+
+# confirmation
+echo -e "${prefix}Confirming update of main configuration...${reset}"
+echo -e "${gap}All the files in ${greenb}~/.config/herbstluftwm ${redb}will be moved${reset}."
+echo -e "${gap}Your config files will be backed up into ${greenb}~/.config/${backup_dir}${reset}."
+read -p "$(echo -e "${prefixask}Are you sure you want to continue? ${option_N} ${blueb}=>${reset} ")" -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo -e "${prefix}Quitting...${reset}\n"
+    exit 0
+else
+    # --first message--
+
+    echo -e "${prefix}Updating configuration...${reset}"
+
+    # --backup--
+
+    # backup
+    cd ~/.config
+    mkdir -p hlwm-backups
+    cp -r herbstluftwm ${backup_dir} &
+    #sleep 5 &
+
+    # get pid of cp process
+    pid=$!
+
+    # if script is killed, kill cp process
+    trap "kill $pid 2> /dev/null" EXIT
+
+    # backing up msgs
+    echo -e "${prefix2}Backing up old configuration..."
+
+    spinner_char="|"
+    while kill -0 $pid 2> /dev/null; do
+        printf "${prefix3}[ ${spinner_char} ] Copying files to ${greenb}~/.config/${backup_dir}${reset}...\r"
+        get_next_spinner
+        sleep 0.1
+    done
+
+    # finish backing up msgs
+    echo -e "${prefix3}Copying files to ${greenb}~/.config/${backup_dir}${reset}...      "
+    echo -e "${prefix3}Finished copying files."
+
+    # disable trap on normal exit
+    trap - EXIT
+
+    # cd back into herbstluftwm dir
+    cd herbstluftwm
+    
+    # --pull--
+
+    # pull
+    pull &
+    #sleep 5 &
+
+    # get pid of pull process
+    pid=$!
+    
+    # if script is killed, kill pull process
+    trap "kill $pid 2> /dev/null" EXIT
+
+    # pulling msgs
+    echo -e "${prefix2}Pulling from remote"  
+
+    spinner_char="|"
+    while kill -0 $pid 2> /dev/null; do
+        printf "${prefix3}[ ${spinner_char} ] Pulling new configuration...\r"
+        get_next_spinner
+        sleep 0.1
+    done
+
+    # finish cloning msg
+    echo -e "${prefix3}Pulling new configuration...      "
+    echo -e "${prefix3}Finished pulling configuration."
+
+    # disable trap on normal exit
+    trap - EXIT
+
+    # final msg
+    echo -e "${prefix}Main configuration update complete."
+fi
+
+# ---rofi config backup & update---
+
+# backup dir
+backup_dir="hlwm-backups/rofi/$time_at_exec"
+
+# confirmation
+echo -e "${prefix}Confirming update of rofi configuration...${reset}"
+echo -e "${gap}All the files in ${greenb}~/.config/rofi ${redb}will be moved${reset}."
+echo -e "${gap}Your rofi config files will be backed up into ${greenb}~/.config/${backup_dir}${reset}."
+read -p "$(echo -e "${prefixask}Are you sure you want to continue? ${option_N} ${blueb}=>${reset} ")" -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo -e "${prefix}Quitting...${reset}\n"
+    exit 0
+else
+    # --first message--
+
+    echo -e "${prefix}Updating rofi configuration...${reset}"
+
+    # --backup--
+
+    # backup
+    cd ~/.config
+    mkdir -p hlwm-backups/rofi
+    mv rofi ${backup_dir} &
+    #sleep 5 &
+
+    # get pid of mv process
+    pid=$!
+
+    # if script is killed, kill mv process
+    trap "kill $pid 2> /dev/null" EXIT
+
+    # backing up msgs
+    echo -e "${prefix2}Backing up old rofi configuration..."
+
+    spinner_char="|"
+    while kill -0 $pid 2> /dev/null; do
+        printf "${prefix3}[ ${spinner_char} ] Moving files to ${greenb}~/.config/${backup_dir}${reset}...\r"
+        get_next_spinner
+        sleep 0.1
+    done
+
+    # finish backing up msgs
+    echo -e "${prefix3}Moving files to ${greenb}~/.config/${backup_dir}${reset}...      "
+    echo -e "${prefix3}Finished moving files."
+
+    # disable trap on normal exit
+    trap - EXIT
+    
+    # --symlink--
+
+    # symlink msgs
+    echo -e "${prefix2}Symlinking rofi config..."
+    echo -e "${prefix3}Running \"${resetb}ln -s ${greenb}~/.config/herbstluftwm/rofi/config.rasi ${greenb}~/.config/rofi/config.rasi${reset}\"..."
+
+    # make rofi config dir & symlink
+    mkdir rofi
+    ln -s herbstluftwm/rofi/config.rasi rofi/config.rasi
+
+    # final msgs
+    echo -e "${prefix3}Finished linking rofi configuration."
+
+    # final msg
+    echo -e "${prefix}Rofi configuration update complete.\n"
+fi

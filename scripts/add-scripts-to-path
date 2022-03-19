@@ -1,0 +1,1 @@
+export PATH="$HOME/.config/herbstluftwm/scripts:$PATH"
