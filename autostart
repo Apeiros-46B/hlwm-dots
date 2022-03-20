@@ -16,9 +16,6 @@ script_dir="/home/${user}/.config/herbstluftwm/scripts"
 bg_dir="/home/${user}/.config/herbstluftwm/wallpapers"
 xrdb="/home/${user}/.config/herbstluftwm/xrdb"
 
-# add scripts dir to PATH #
-source $script_dir/add-scripts-to-path
-
 # helper functions for slightly cleaner config #
 bind() {
     bind="$1"; shift
@@ -86,10 +83,10 @@ for val in background foreground; do
 done
 
 # picom #
-picomutil start
+bash ${script_dir}/picomutil start
 
 # polybar #
-polybarutil start
+bash ${script_dir}/polybarutil start
 
 # -- keybinds -- #
 
@@ -112,15 +109,15 @@ bind $Mod-c                             close
 bind $Alt-F4                            close
 
 # rofi #
-spawn $Mod-space                        rofiutil 
-spawn $Mod-x                            rofiutil -l
+spawn $Mod-space                        bash ${script_dir}/rofiutil 
+spawn $Mod-x                            bash ${script_dir}/rofiutil -l
 
 # utilities #
 spawn $Mod-Shift-Escape                 kitty -e btop
 spawn $Mod-u                            pavucontrol
 spawn $Mod-Shift-s                      flameshot gui
-spawn $Mod-Shift-p                      picomutil toggle
-spawn $Mod-Shift-d                      polybarutil toggle
+spawn $Mod-Shift-p                      bash ${script_dir}/picomutil toggle
+spawn $Mod-Shift-d                      bash ${script_dir}/polybarutil toggle
 
 # terminals #
 spawn $Mod-Return                       kitty -c "/home/$user/.config/herbstluftwm/kitty/kitty.conf"
@@ -128,12 +125,12 @@ spawn $Mod-Shift-Return                 alacritty
 spawn $Mod-Control-Return               cool-retro-term
 
 # media & volume control #
-spawn Control-F6                        mediautil media prev
-spawn Control-F7                        mediautil media toggle
-spawn Control-F8                        mediautil media next
+spawn Control-F6                        bash ${script_dir}/mediautil media prev
+spawn Control-F7                        bash ${script_dir}/mediautil media toggle
+spawn Control-F8                        bash ${script_dir}/mediautil media next
 
-spawn Control-F2                        mediautil vol dec
-spawn Control-F3                        mediautil vol inc
+spawn Control-F2                        bash ${script_dir}/mediautil vol dec
+spawn Control-F3                        bash ${script_dir}/mediautil vol inc
 
 # - client management - #
 
