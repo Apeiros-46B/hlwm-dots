@@ -241,6 +241,7 @@ setting    frame_gap                    4
 # title & borders #
 setattr    theme.title_height           16
 setattr    theme.title_font             'JetBrainsMono Nerd Font:pixelsize=14:style=bold'
+setattr    theme.title_align            'center'
 setattr    theme.padding_top            6
 setattr    theme.active.color           '#89beba'
 setattr    theme.title_color            '#2b3339'
