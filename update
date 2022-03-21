@@ -25,9 +25,9 @@ get_next_spinner() {
 
 # helper function for resetting local changes and merging remote changes
 pull() {
-    git fetch
-    git reset --hard HEAD
-    git merge '@{u}'
+    git fetch > /dev/null
+    git reset --hard HEAD > /dev/null
+    git merge '@{u}' > /dev/null
 }
 
 # misc
