@@ -62,7 +62,7 @@ time_at_exec="$(date +%m-%d-%y--%H-%M-%S)"
 backup_dir="hlwm-backups/$time_at_exec"
 
 # confirmation
-echo -e "${prefix}Confirming update of configuration...${reset}"
+echo -e "${prefix}Confirming update of main configuration...${reset}"
 echo -e "${gap}All the files in ${greenb}~/.config/herbstluftwm ${redb}will be moved${reset}."
 echo -e "${gap}Your config files will be backed up into ${greenb}~/.config/${backup_dir}${reset}."
 read -p "$(echo -e "${prefixask}Are you sure you want to continue? ${option_N} ${blueb}=>${reset} ")" -r
@@ -138,5 +138,71 @@ else
     trap - EXIT
 
     # final msg
-    echo -e "${prefix}Configuration update complete."
+    echo -e "${prefix}Main configuration update complete."
+fi
+
+# ---glava config backup & update---
+
+# backup dir
+backup_dir="hlwm-backups/rofi/$time_at_exec"
+
+# confirmation
+echo -e "${prefix}Confirming installation of GLava configuration...${reset}"
+echo -e "${gap}All the files in ${greenb}~/.config/glava ${redb}will be moved${reset}."
+echo -e "${gap}Your GLava config files will be backed up into ${greenb}~/.config/${backup_dir}${reset}."
+read -p "$(echo -e "${prefixask}Are you sure you want to continue? ${option_N} ${blueb}=>${reset} ")" -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo -e "${prefix}Quitting...${reset}\n"
+    exit 0
+else
+    # --first message--
+
+    echo -e "${prefix}Installing GLava configuration...${reset}"
+
+    # --backup--
+
+    # backup
+    cd ~/.config
+    if [ -e "$HOME/.config/glava" ]; then
+        mkdir -p hlwm-backups/glava
+        mv glava ${backup_dir} &
+        
+        # get pid of mv process
+        pid=$!
+
+        # if script is killed, kill mv process
+        trap "kill $pid 2> /dev/null" EXIT
+
+        # backing up msgs
+        echo -e "${prefix2}Backing up old GLava configuration..."
+
+        spinner_char="|"
+        while kill -0 $pid 2> /dev/null; do
+            printf "${prefix3}[ ${spinner_char} ] Moving files to ${greenb}~/.config/${backup_dir}${reset}...\r"
+            get_next_spinner
+            sleep 0.1
+        done
+
+        # finish backing up msgs
+        echo -e "${prefix3}Moving files to ${greenb}~/.config/${backup_dir}${reset}...      "
+        echo -e "${prefix3}Finished moving files."
+
+        # disable trap on normal exit
+        trap - EXIT
+    fi
+    
+    # --symlink--
+
+    # symlink msgs
+    echo -e "${prefix2}Symlinking GLava config..."
+    echo -e "${prefix3}Running \"${resetb}ln -s ${greenb}$HOME/.config/herbstluftwm/glava $HOME/.config/glava${reset}\"..."
+
+    # symlink
+    ln -s "$HOME/.config/herbstluftwm/glava" "$HOME/.config/glava"
+
+    # final msgs
+    echo -e "${prefix3}Finished linking GLava configuration."
+
+    # final msg
+    echo -e "${prefix}GLava configuration installation complete.\n"
 fi

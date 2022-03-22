@@ -25,13 +25,14 @@ Install whichever way is easiest for you, required apps/fonts listed below:
 - alacritty *(optional)*
 - cool-retro-term *(optional)*
 - flameshot *(optional)*
+- spotify *(optional, the music scripts are designed for spotify so you might have to modify them if you use something else for music)*
 
 **Fonts:**
 
-- jetbrainsmono
-- jetbrainsmono nerd font
-- font awesome 6
-- gnu unifont
+- JetBrainsMono
+- JetBrainsMono Nerd Font
+- Font Awesome 6
+- Any font that supports different width Unicode spaces (I use Noto Sans)
 
 ### Installation:
 
@@ -45,10 +46,9 @@ Add the following in your shell config: `export PATH="$HOME/.config/herbstluftwm
 
 ### Notes:
 
-Dunst config isn't really done, so notifications look kinda out of place
-
 The `rofiutil` script is a slightly modified version of `rofi_run` from the ArchLabs distro
 
 `zsh` and `nvim` configs are not included in this repo, I might add them later though
 
 `nvim` config is based off of [nii-nvim](https://github.com/Theory-Of-Everything/nii-nvim)
+

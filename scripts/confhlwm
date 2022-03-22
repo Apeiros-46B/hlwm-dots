@@ -57,7 +57,7 @@ else
             ;;
 
         *)
-            if ls "${hlwm_conf_dir}/$1" > /dev/null 2>&-; then
+            if [ -e "${hlwm_conf_dir}/$1" ]; then
                 openconfig $1
             else
                 usage

@@ -46,13 +46,13 @@ gap="    "
 option_N="${reset}[${red}y${reset}/${greenb}N${reset}]"
 option_Y="${reset}[${greenb}Y${reset}/${red}n${reset}]"
 
-# ---main config backup & update---
+# ---main config backup & install---
 
 # backup dir
 backup_dir="hlwm-backups/hlwm-user-old"
 
 # confirmation
-echo -e "${prefix}Confirming installation of configuration...${reset}"
+echo -e "${prefix}Confirming installation of main configuration...${reset}"
 echo -e "${gap}All the files in ${greenb}~/.config/herbstluftwm ${redb}will be moved${reset}."
 echo -e "${gap}Your config files will be backed up into ${greenb}~/.config/${backup_dir}${reset}."
 read -p "$(echo -e "${prefixask}Are you sure you want to continue? ${option_N} ${blueb}=>${reset} ")" -r
@@ -62,14 +62,14 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 else
     # --first message--
 
-    echo -e "${prefix}Installing configuration...${reset}"
+    echo -e "${prefix}Installing main configuration...${reset}"
 
     # --backup--
     
     # backup
     cd ~/.config
-    mkdir -p hlwm-backups
     if [ -e "$HOME/.config/herbstluftwm" ]; then
+        mkdir -p hlwm-backups
         mv herbstluftwm ${backup_dir} &
         
         # get pid of mv process
@@ -100,6 +100,7 @@ else
 
     # move hlwm-dots to herbstluftwm
     mv hlwm-dots herbstluftwm &
+    #sleep 5 &
         
     # get pid of mv process
     pid=$!
@@ -117,13 +118,76 @@ else
         sleep 0.1
     done
 
-    # finish moving file msgs
+    # finish backing up msgs
     echo -e "${prefix3}Moving ${greenb}~/.config/hlwm-dots ${reset}to ${greenb}~/.config/herbstluftwm${reset}...      "
     echo -e "${prefix3}Finished moving files."
 
     # disable trap on normal exit
     trap - EXIT
+fi
+
+# ---glava config backup & install---
+
+# backup dir
+backup_dir="hlwm-backups/glava/glava-user-old"
+
+# confirmation
+echo -e "${prefix}Confirming installation of GLava configuration...${reset}"
+echo -e "${gap}All the files in ${greenb}~/.config/glava ${redb}will be moved${reset}."
+echo -e "${gap}Your GLava config files will be backed up into ${greenb}~/.config/${backup_dir}${reset}."
+read -p "$(echo -e "${prefixask}Are you sure you want to continue? ${option_N} ${blueb}=>${reset} ")" -r
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo -e "${prefix}Quitting...${reset}\n"
+    exit 0
+else
+    # --first message--
+
+    echo -e "${prefix}Installing GLava configuration...${reset}"
+
+    # --backup--
+
+    # backup
+    cd ~/.config
+    if [ -e "$HOME/.config/glava" ]; then
+        mkdir -p hlwm-backups/glava
+        mv glava ${backup_dir} &
+        
+        # get pid of mv process
+        pid=$!
+
+        # if script is killed, kill mv process
+        trap "kill $pid 2> /dev/null" EXIT
+
+        # backing up msgs
+        echo -e "${prefix2}Old configuration exists. Backing up..."
+
+        spinner_char="|"
+        while kill -0 $pid 2> /dev/null; do
+            printf "${prefix3}[ ${spinner_char} ] Moving files to ${greenb}~/.config/${backup_dir}${reset}...\r"
+            get_next_spinner
+            sleep 0.1
+        done
+
+        # finish backing up msgs
+        echo -e "${prefix3}Moving files to ${greenb}~/.config/${backup_dir}${reset}...      "
+        echo -e "${prefix3}Finished moving files."
+
+        # disable trap on normal exit
+        trap - EXIT
+    fi
+    
+    # --symlink--
+
+    # symlink msgs
+    echo -e "${prefix2}Symlinking GLava config..."
+    echo -e "${prefix3}Running \"${resetb}ln -s ${greenb}$HOME/.config/herbstluftwm/glava $HOME/.config/glava${reset}\"..."
+
+    # symlink
+    ln -s "$HOME/.config/herbstluftwm/glava" "$HOME/.config/glava"
+
+    # final msgs
+    echo -e "${prefix3}Finished linking GLava configuration."
 
     # final msg
-    echo -e "${prefix}Installation of configuration complete."
+    echo -e "${prefix}GLava configuration installation complete.\n"
 fi
