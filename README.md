@@ -48,7 +48,6 @@ Add the following in your shell config: `export PATH="$HOME/.config/herbstluftwm
 
 The `rofiutil` script is a slightly modified version of `rofi_run` from the ArchLabs distro
 
-`zsh` and `nvim` configs are not included in this repo, I might add them later though
+GLava configs include the default fragment shaders provided by GLava itself, you may replace the `bars`, `radial`, `graph`, `circle`, `wave`, and `util` folders with symlinks to their respective directories in `/etc/xdg/glava/` and GLava should still work as normal
 
-`nvim` config is based off of [nii-nvim](https://github.com/Theory-Of-Everything/nii-nvim)
-
+`zsh` and `nvim` configs (shown in screenshot) are not included in this repo, I might add them later though
