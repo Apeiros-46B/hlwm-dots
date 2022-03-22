@@ -62,7 +62,7 @@ time_at_exec="$(date +%m-%d-%y--%H-%M-%S)"
 backup_dir="hlwm-backups/$time_at_exec"
 
 # confirmation
-echo -e "${prefix}Confirming update of main configuration...${reset}"
+echo -e "${prefix}Confirming update of configuration...${reset}"
 echo -e "${gap}All the files in ${greenb}~/.config/herbstluftwm ${redb}will be moved${reset}."
 echo -e "${gap}Your config files will be backed up into ${greenb}~/.config/${backup_dir}${reset}."
 read -p "$(echo -e "${prefixask}Are you sure you want to continue? ${option_N} ${blueb}=>${reset} ")" -r
@@ -138,71 +138,5 @@ else
     trap - EXIT
 
     # final msg
-    echo -e "${prefix}Main configuration update complete."
-fi
-
-# ---rofi config backup & update---
-
-# backup dir
-backup_dir="hlwm-backups/rofi/$time_at_exec"
-
-# confirmation
-echo -e "${prefix}Confirming update of rofi configuration...${reset}"
-echo -e "${gap}All the files in ${greenb}~/.config/rofi ${redb}will be moved${reset}."
-echo -e "${gap}Your rofi config files will be backed up into ${greenb}~/.config/${backup_dir}${reset}."
-read -p "$(echo -e "${prefixask}Are you sure you want to continue? ${option_N} ${blueb}=>${reset} ")" -r
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo -e "${prefix}Quitting...${reset}\n"
-    exit 0
-else
-    # --first message--
-
-    echo -e "${prefix}Updating rofi configuration...${reset}"
-
-    # --backup--
-
-    # backup
-    cd ~/.config
-    mkdir -p hlwm-backups/rofi
-    mv rofi ${backup_dir} &
-    #sleep 5 &
-
-    # get pid of mv process
-    pid=$!
-
-    # if script is killed, kill mv process
-    trap "kill $pid 2> /dev/null" EXIT
-
-    # backing up msgs
-    echo -e "${prefix2}Backing up old rofi configuration..."
-
-    spinner_char="|"
-    while kill -0 $pid 2> /dev/null; do
-        printf "${prefix3}[ ${spinner_char} ] Moving files to ${greenb}~/.config/${backup_dir}${reset}...\r"
-        get_next_spinner
-        sleep 0.1
-    done
-
-    # finish backing up msgs
-    echo -e "${prefix3}Moving files to ${greenb}~/.config/${backup_dir}${reset}...      "
-    echo -e "${prefix3}Finished moving files."
-
-    # disable trap on normal exit
-    trap - EXIT
-    
-    # --symlink--
-
-    # symlink msgs
-    echo -e "${prefix2}Symlinking rofi config..."
-    echo -e "${prefix3}Running \"${resetb}ln -s ${greenb}~/.config/herbstluftwm/rofi/config.rasi ${greenb}~/.config/rofi/config.rasi${reset}\"..."
-
-    # make rofi config dir & symlink
-    mkdir -p rofi
-    ln -s "$HOME/.config/herbstluftwm/rofi/config.rasi" "$HOME/.config/rofi/config.rasi"
-
-    # final msgs
-    echo -e "${prefix3}Finished linking rofi configuration."
-
-    # final msg
-    echo -e "${prefix}Rofi configuration update complete.\n"
+    echo -e "${prefix}Configuration update complete."
 fi

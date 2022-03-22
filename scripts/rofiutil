@@ -42,6 +42,11 @@ usage()
 EOF
 }
 
+rofi()
+{
+    command rofi -config "$HOME/.config/herbstluftwm/rofi/config.rasi" "$@"
+}
+
 if (( $# == 0 )); then
 	rofi -show run -columns 2 "${OPTS[@]}"
 else
