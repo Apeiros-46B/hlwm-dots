@@ -1,7 +1,9 @@
 #!/bin/bash
 
 usage() {
-    printf "Usage: mediautil <vol|media> <inc|dec|prev|toggle|next>\n"
+    printf "Usage (vol): mediautil vol <cycle-sink|get-sink|inc|dec|mute|get>\n"
+    printf "Usage (media): mediautil media <prev|toggle|next>\n"
+    printf "Requires: playerctl, pamixer, pactl\n"
     exit 1
 }
 
@@ -16,14 +18,29 @@ fi
 case $1 in
     vol)
         case $2 in
+            cycle-sink)
+                notify-send "unimplemented feature"
+                ;;
+
+            get-sink)
+                pamixer --get-default-sink
+                ;;
+
             inc)
-                pamixer --allow-boost -i 4
+                pamixer --sink 2 --allow-boost -i 4
                 ;;
 
             dec)
-                pamixer --allow-boost -d 4
+                pamixer --sink 2 --allow-boost -d 4
                 ;;
 
+            mute)
+                pamixer --sink 2 -t
+                ;;
+
+            get)
+                echo "${$(pamixer --sink 2 --get-volume-human)/\%/}"
+                ;;
             *)
                 usage
                 ;;

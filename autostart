@@ -11,10 +11,8 @@ hc() {
 hc emit_hook reload
 
 # info #
-user="$(whoami)"
-script_dir="/home/${user}/.config/herbstluftwm/scripts"
-bg_dir="/home/${user}/.config/herbstluftwm/wallpapers"
-xrdb="/home/${user}/.config/herbstluftwm/xrdb"
+script_dir="$HOME/.config/herbstluftwm/scripts"
+bg_dir="$HOME/.config/herbstluftwm/wallpapers"
 
 # helper functions for slightly cleaner config #
 bind() {
@@ -49,11 +47,18 @@ setrule() {
 # function for getting colors from xrdb #
 getcolor() {
     local result_name="$1"
-    local result="$(echo $xrdb | egrep -w "$result_name" | awk '{print $2}')"
+    local result="$(echo $xrdb_values | egrep -w "$result_name" | awk '{print $2}')"
     eval $result_name="$result"
 }
 
 # -- autostart -- #
+
+# add scripts dir to hc's PATH #
+hc_path="$(hc getenv PATH)"
+
+if [[ $hc_path != *"$script_dir"* ]]; then
+    hc setenv PATH "${script_dir}:$hc_path"
+fi
 
 # set root client color #
 xsetroot -solid "#1d2226"
@@ -71,8 +76,8 @@ feh --bg-scale ${bg_dir}/everforest_stairs.jpg
 xset r rate 350 60
 
 # xrdb #
-xrdb $xrdb
-xrdb="$(xrdb -query)"
+xrdb "$HOME/.config/herbstluftwm/xrdb"
+xrdb_values="$(xrdb -query)"
 
 for num in {0..15}; do
     getcolor "color$num"
@@ -109,28 +114,31 @@ bind $Mod-c                             close
 bind $Alt-F4                            close
 
 # rofi #
-spawn $Mod-space                        bash ${script_dir}/rofiutil 
-spawn $Mod-x                            bash ${script_dir}/rofiutil -l
+spawn $Mod-space                        rofiutil 
+spawn $Mod-x                            rofiutil -l
 
 # utilities #
 spawn $Mod-Shift-Escape                 kitty -e btop
 spawn $Mod-u                            pavucontrol
+spawn Control-F1                        flameshot gui
 spawn $Mod-Shift-s                      flameshot gui
-spawn $Mod-Shift-p                      bash ${script_dir}/picomutil toggle
-spawn $Mod-Shift-d                      bash ${script_dir}/polybarutil toggle
+spawn $Mod-Shift-p                      picomutil toggle
+spawn $Mod-Shift-d                      polybarutil toggle
 
 # terminals #
-spawn $Mod-Return                       kitty -c "/home/$user/.config/herbstluftwm/kitty/kitty.conf"
+spawn $Mod-Return                       kitty -c "$HOME/.config/herbstluftwm/kitty/kitty.conf"
 spawn $Mod-Shift-Return                 alacritty
 spawn $Mod-Control-Return               cool-retro-term
 
 # media & volume control #
-spawn Control-F6                        bash ${script_dir}/mediautil media prev
-spawn Control-F7                        bash ${script_dir}/mediautil media toggle
-spawn Control-F8                        bash ${script_dir}/mediautil media next
+spawn Control-F6                        mediautil media prev
+spawn Control-F7                        mediautil media toggle
+spawn Control-F8                        mediautil media next
 
-spawn Control-F2                        bash ${script_dir}/mediautil vol dec
-spawn Control-F3                        bash ${script_dir}/mediautil vol inc
+spawn Control-Shift-F1                  mediautil vol toggle-source
+spawn Control-F2                        mediautil vol dec
+spawn Control-F3                        mediautil vol inc
+spawn Control-F4                        mediautil vol mute
 
 # - client management - #
 
@@ -250,8 +258,8 @@ setattr    theme.urgent.color           '#e68183'
 setattr    theme.normal.title_color     '#d8caac'
 setattr    theme.inner_width            1
 setattr    theme.inner_color            black
-setattr    theme.border_width           0
-setattr    theme.floating.border_width  0
+setattr    theme.border_width           2
+setattr    theme.floating.border_width  2
 setattr    theme.floating.outer_width   1
 setattr    theme.floating.outer_color   black
 setattr    theme.active.inner_color     '#89beba'
