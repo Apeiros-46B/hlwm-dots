@@ -163,7 +163,7 @@ else
 
     # backup
     cd ~/.config
-    if [[ -e "$HOME/.config/glava-backup" && -L "$HOME/.config/glava-backup" && "$(realpath "$HOME/.config/glava-backup")" == "$HOME/.config/herbstluftwm/glava" ]]; then
+    if [[ -e "$HOME/.config/glava" && -L "$HOME/.config/glava" && "$(realpath "$HOME/.config/glava")" == "$HOME/.config/herbstluftwm/glava" ]]; then
         # glava dir is a valid symlink
         echo -e "${prefix2}GLava directory is already a symlink to the correct location"
         echo -e "${prefix}There is nothing left to do. Quitting...\n"
