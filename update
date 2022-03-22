@@ -28,6 +28,7 @@ pull() {
     git fetch > /dev/null
     git reset --hard HEAD > /dev/null
     git merge '@{u}' > /dev/null
+    git submodule update --recursive > /dev/null
 }
 
 # misc
@@ -147,7 +148,7 @@ fi
 backup_dir="hlwm-backups/rofi/$time_at_exec"
 
 # confirmation
-echo -e "${prefix}Confirming installation of GLava configuration...${reset}"
+echo -e "${prefix}Confirming update of GLava configuration...${reset}"
 echo -e "${gap}All the files in ${greenb}~/.config/glava ${redb}will be moved${reset}."
 echo -e "${gap}Your GLava config files will be backed up into ${greenb}~/.config/${backup_dir}${reset}."
 read -p "$(echo -e "${prefixask}Are you sure you want to continue? ${option_N} ${blueb}=>${reset} ")" -r
@@ -157,13 +158,17 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 else
     # --first message--
 
-    echo -e "${prefix}Installing GLava configuration...${reset}"
+    echo -e "${prefix}Updating GLava configuration...${reset}"
 
     # --backup--
 
     # backup
     cd ~/.config
-    if [ -e "$HOME/.config/glava" ]; then
+    if [[ -e "$HOME/.config/glava-backup" && -L "$HOME/.config/glava-backup" && "$(realpath "$HOME/.config/glava-backup")" == "$HOME/.config/herbstluftwm/glava" ]]; then
+        # glava dir is a valid symlink
+        echo -e "${prefix2}GLava directory is already a symlink to the correct location"
+        echo -e "${prefix}There is nothing left to do. Quitting...\n"
+    else
         mkdir -p hlwm-backups/glava
         mv glava ${backup_dir} &
         
@@ -189,20 +194,20 @@ else
 
         # disable trap on normal exit
         trap - EXIT
+
+        # --symlink--
+
+        # symlink msgs
+        echo -e "${prefix2}Symlinking GLava config..."
+        echo -e "${prefix3}Running \"${resetb}ln -s ${greenb}$HOME/.config/herbstluftwm/glava $HOME/.config/glava${reset}\"..."
+
+        # symlink
+        ln -s "$HOME/.config/herbstluftwm/glava" "$HOME/.config/glava"
+
+        # final msgs
+        echo -e "${prefix3}Finished linking GLava configuration."
+
+        # final msg
+        echo -e "${prefix}GLava configuration update complete.\n"
     fi
-    
-    # --symlink--
-
-    # symlink msgs
-    echo -e "${prefix2}Symlinking GLava config..."
-    echo -e "${prefix3}Running \"${resetb}ln -s ${greenb}$HOME/.config/herbstluftwm/glava $HOME/.config/glava${reset}\"..."
-
-    # symlink
-    ln -s "$HOME/.config/herbstluftwm/glava" "$HOME/.config/glava"
-
-    # final msgs
-    echo -e "${prefix3}Finished linking GLava configuration."
-
-    # final msg
-    echo -e "${prefix}GLava configuration installation complete.\n"
 fi

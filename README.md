@@ -5,7 +5,7 @@ Config files for my herbstluftwm setup (partially finished)
 
 ##### Install on arch:
 
-`yay -S ttf-unifont ttf-jetbrains-mono nerd-fonts-jetbrains-mono ttf-font-awesome herbstluftwm polybar rofi picom-ibhagwan-git dunst kitty feh playerctl pamixer`
+`yay -S noto-fonts-main ttf-jetbrains-mono nerd-fonts-jetbrains-mono ttf-font-awesome herbstluftwm polybar rofi picom-ibhagwan-git dunst kitty feh playerctl pamixer`
 
 ##### Other distros:
 
@@ -13,8 +13,8 @@ Install whichever way is easiest for you, required apps/fonts listed below:
 
 **Apps/programs:**
 
-- herbstluftwm
-- polybar
+- Herbstluftwm
+- holybar
 - rofi
 - picom (ibhagwan fork)
 - dunst
@@ -32,17 +32,21 @@ Install whichever way is easiest for you, required apps/fonts listed below:
 - JetBrainsMono
 - JetBrainsMono Nerd Font
 - Font Awesome 6
-- Any font that supports different width Unicode spaces (I use Noto Sans)
+- Any font that supports different width Unicode whitespace characters (I use Noto Sans)
 
-### Installation:
+### Installing:
 
-If you have all the required apps/fonts, just navigate to `~/.config` and clone this repository, then `cd` into `hlwm-dots` and run the `install` script
+If you have all the required apps/fonts, navigate to `~/.config`, clone this repo with `git clone --recurse-submodules https://github.com/Apeiros-46B/hlwm-dots` then `cd` into `hlwm-dots` and run the `install` script
 
 Add the following in your shell config: `export PATH="$HOME/.config/herbstluftwm/scripts:$PATH"`
 
+### Updating:
+
+Run the `update` script in your `herbstluftwm` dir to update your config. This will backup your old config and replace it with a new version from here. If you changed `~/.config/glava` before updating, it will also be backed up
+
 ### Screenshot:
 
-![screenshot](herbstluft_rice.png "Screenshot of my rice")
+![screenshot](misc/herbstluft_rice.png "Screenshot of my rice")
 
 ### Notes:
 
@@ -51,3 +55,5 @@ The `rofiutil` script is a slightly modified version of `rofi_run` from the Arch
 GLava configs include the default fragment shaders provided by GLava itself, you may replace the `bars`, `radial`, `graph`, `circle`, `wave`, and `util` folders with symlinks to their respective directories in `/etc/xdg/glava/` and GLava should still work as normal
 
 `zsh` and `nvim` configs (shown in screenshot) are not included in this repo, I might add them later though
+
+You can find my modified version of [HeavyRain266](https://github.com/HeavyRain266)'s startpage [here](https://github.com/Apeiros-46B/startpage)
