@@ -28,7 +28,6 @@ pull() {
     git fetch > /dev/null
     git reset --hard HEAD > /dev/null
     git merge '@{u}' > /dev/null
-    git submodule update --recursive > /dev/null
 }
 
 # misc
