@@ -51,11 +51,6 @@ getcolor() {
     eval $result_name="$result"
 }
 
-# kitty with custom config #
-kitty() {
-    command kitty -c "$HOME/.config/herbstluftwm/kitty/kitty.conf" "$@"
-}
-
 # -- autostart -- #
 
 # add scripts dir to hc's PATH #
@@ -123,7 +118,7 @@ spawn $Mod-space                        rofiutil
 spawn $Mod-x                            rofiutil -l
 
 # utilities #
-spawn $Mod-Shift-Escape                 kitty -e btop
+spawn $Mod-Shift-Escape                 kitty -c "$HOME/.config/herbstluftwm/kitty/kitty.conf" -e btop
 spawn $Mod-u                            pavucontrol
 spawn Control-F1                        flameshot gui
 spawn $Mod-Shift-s                      flameshot gui
@@ -132,7 +127,7 @@ spawn $Mod-Shift-d                      polybarutil toggle
 spawn $Mod-Shift-g                      glavautil toggle
 
 # terminals #
-spawn $Mod-Return                       kitty
+spawn $Mod-Return                       kitty -c "$HOME/.config/herbstluftwm/kitty/kitty.conf"
 spawn $Mod-Shift-Return                 alacritty
 spawn $Mod-Control-Return               cool-retro-term
 
