@@ -7,10 +7,12 @@ usage() {
 
 kill() {
     killall -q picom
+    #killall -q flashfocus
 }
 
 start() {
     picom --config /home/$(whoami)/.config/herbstluftwm/picom.conf &
+    #flashfocus -t 250 -o 0.5 -l always --no-flash-fullscreen &
 }
 
 if [[ ! $1 ]]; then
