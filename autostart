@@ -132,15 +132,15 @@ spawn $Mod-Shift-Return                 alacritty
 spawn $Mod-Control-Return               cool-retro-term
 
 # media & volume control #
-spawn Control-F6                        mediautil media prev
-spawn Control-F7                        mediautil media toggle
-spawn Control-F8                        mediautil media next
+spawn Control-F6                        audioutil media prev
+spawn Control-F7                        audioutil media toggle
+spawn Control-F8                        audioutil media next
 
-spawn Control-F1                        mediautil vol inc-default-sink
-spawn Control-Shift-F1                  mediautil vol dec-default-sink
-spawn Control-F2                        mediautil vol dec
-spawn Control-F3                        mediautil vol inc
-spawn Control-F4                        mediautil vol mute
+spawn Control-F1                        audioutil vol inc-default-sink
+spawn Control-Shift-F1                  audioutil vol dec-default-sink
+spawn Control-F2                        audioutil vol dec
+spawn Control-F3                        audioutil vol inc
+spawn Control-F4                        audioutil vol mute
 
 # - client management - #
 
