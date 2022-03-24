@@ -13,6 +13,7 @@ hc emit_hook reload
 # info #
 script_dir="$HOME/.config/herbstluftwm/scripts"
 bg_dir="$HOME/.config/herbstluftwm/wallpapers"
+kitty_with_config="kitty -c $HOME/.config/herbstluftwm/kitty/kitty.conf"
 
 # helper functions for slightly cleaner config #
 bind() {
@@ -118,16 +119,15 @@ spawn $Mod-space                        rofiutil
 spawn $Mod-x                            rofiutil -l
 
 # utilities #
-spawn $Mod-Shift-Escape                 kitty -c "$HOME/.config/herbstluftwm/kitty/kitty.conf" -e btop
+spawn $Mod-Shift-Escape                 $kitty_with_config -e btop
 spawn $Mod-u                            pavucontrol
-spawn Control-F1                        flameshot gui
 spawn $Mod-Shift-s                      flameshot gui
 spawn $Mod-Shift-p                      picomutil toggle
 spawn $Mod-Shift-d                      polybarutil toggle
 spawn $Mod-Shift-g                      glavautil toggle
 
 # terminals #
-spawn $Mod-Return                       kitty -c "$HOME/.config/herbstluftwm/kitty/kitty.conf"
+spawn $Mod-Return                       $kitty_with_config
 spawn $Mod-Shift-Return                 alacritty
 spawn $Mod-Control-Return               cool-retro-term
 
@@ -136,7 +136,8 @@ spawn Control-F6                        mediautil media prev
 spawn Control-F7                        mediautil media toggle
 spawn Control-F8                        mediautil media next
 
-spawn Control-Shift-F1                  mediautil vol toggle-source
+spawn Control-F1                        mediautil vol inc-default-sink
+spawn Control-Shift-F1                  mediautil vol dec-default-sink
 spawn Control-F2                        mediautil vol dec
 spawn Control-F3                        mediautil vol inc
 spawn Control-F4                        mediautil vol mute

@@ -4,7 +4,7 @@
 Xft.dpi: 96 
 
 ! cursor size
-Xcursor.size: 32
+Xcursor.size: 24
 
 ! xterm font
 xterm*font: *-fixed-*-*-*-18-*

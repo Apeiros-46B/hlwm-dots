@@ -1,10 +1,84 @@
 #!/bin/bash
 
 usage() {
-    printf "Usage (vol): mediautil vol <cycle-sink|get-sink|inc|dec|mute|get>\n"
+    printf "Usage (vol): mediautil vol <cycle-default-sink|get-default-sink|inc|dec|mute|get>\n"
     printf "Usage (media): mediautil media <prev|toggle|next>\n"
     printf "Requires: playerctl, pamixer, pactl\n"
     exit 1
+}
+
+default_sink_num() {
+    pamixer --list-sinks | grep "$(pamixer --get-default-sink | tail -1 | awk '{ print $2 }' | tr -d '"')" | awk '{ print $1 }'
+}
+
+sink_desc_from_num() {
+    pactl list sinks | grep -e 'Sink' -e 'Description:' | grep -e "#$1" -A 1 | grep 'Description' | cut -d' ' -f 2-
+}
+
+adjust_vol() {
+    sink="$(default_sink_num)"
+    sink_desc="$(sink_desc_from_num $sink)"
+    
+    pamixer --sink $sink --allow-boost $1
+    
+    vol="$(mediautil vol get)"
+
+    prefix=" "
+    notif_content="Volume: "
+
+    if [ "$vol" = "muted" ]; then
+        prefix=" "
+        notif_content+="Muted"
+    else
+        notif_content+="${vol}"
+    fi
+
+    notif "$sink_desc" "$prefix$notif_content"
+}
+
+change_sink() {
+    sink="$(default_sink_num)"
+    max_sink="$(pamixer --list-sinks | tail -1 | awk '{ print $1 }')"
+
+    case $1 in
+        inc)
+            new_sink="$(expr "$sink" + 1)"
+            ;;
+
+        dec)
+            new_sink="$(expr "$sink" - 1)"
+            ;;
+
+        *)
+            exit 1
+            ;;
+    esac
+
+    if [[ "$new_sink" < 0 ]]; then
+        new_sink="$max_sink"
+    elif [[ "$new_sink" > "$max_sink" ]]; then
+        new_sink="0"
+    fi
+
+    pactl set-default-sink "$new_sink"
+
+    new_sink_desc="$(sink_desc_from_num "$new_sink")"
+    notif "Sink changed" "<u>${new_sink_desc} (#$new_sink)</u> is now the default sink"
+}
+
+notif() {
+    icon="placeholder"
+    if [ $3 ]; then
+        icon="$3"
+    fi
+
+    time="2000"
+    if [ $4 ]; then
+        icon="$4"
+    fi
+
+    # this hint allows the notification to replace previous confirmation notifications
+    dunstify -h "string:x-canonical-private-synchronous:anything" -a "mediautil" -i "$icon" -u "normal" -t "$time" "$1" "$2"
 }
 
 if [[ ! $1 ]]; then
@@ -18,29 +92,38 @@ fi
 case $1 in
     vol)
         case $2 in
-            cycle-sink)
-                notify-send "unimplemented feature"
+            inc-default-sink)
+                change_sink inc
                 ;;
 
-            get-sink)
-                pamixer --get-default-sink
+            dec-default-sink)
+                change_sink dec
+                ;;
+
+            get-default-sink)
+                default_sink_num
                 ;;
 
             inc)
-                pamixer --sink 2 --allow-boost -i 4
+                if [[ "$(mediautil vol get)" != "muted" ]]; then
+                    adjust_vol "-i 2"
+                fi
                 ;;
 
             dec)
-                pamixer --sink 2 --allow-boost -d 4
+                if [[ "$(mediautil vol get)" != "muted" ]]; then
+                    adjust_vol "-d 2"
+                fi                
                 ;;
 
             mute)
-                pamixer --sink 2 -t
+                adjust_vol "-t"
                 ;;
 
             get)
-                echo "${$(pamixer --sink 2 --get-volume-human)/\%/}"
+                pamixer --sink "$(mediautil vol get-default-sink)" --get-volume-human
                 ;;
+
             *)
                 usage
                 ;;
