@@ -54,7 +54,8 @@ getcolor() {
 
 # -- autostart -- #
 
-# add scripts dir to hc's PATH #
+# add scripts dir to $PATH #
+export PATH="$HOME/.config/herbstluftwm/scripts:$PATH"
 hc_path="$(hc getenv PATH)"
 
 if [[ $hc_path != *"$script_dir"* ]]; then
