@@ -135,15 +135,14 @@ case $1 in
                 ;;
 
             get)
-                pamixer --sink "$(audioutil vol get-default-sink)" --get-volume-human
+                pamixer --get-volume-human
                 ;;
 
             get-polybar)
                 result="$(audioutil vol get)"
 
                 if [[ "$result" == "muted" ]]; then
-                    light_gray="$(cat "$HOME/.config/herbstluftwm/xrdb" | grep color7 | awk '{ print $2 }')"
-                    result="%{F${light_gray}}${result}%{F-}"
+                    result="%{F#607279}${result}%{F-}"
                 fi
 
                 echo "$result"
