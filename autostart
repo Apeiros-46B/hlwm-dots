@@ -90,10 +90,10 @@ for val in background foreground; do
 done
 
 # picom #
-bash ${script_dir}/picomutil start
+picomutil start
 
 # polybar #
-bash ${script_dir}/polybarutil start
+polybarutil start
 
 # -- keybinds -- #
 
