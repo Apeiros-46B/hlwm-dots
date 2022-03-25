@@ -36,7 +36,7 @@ Install whichever way is easiest for you, required apps/fonts listed below:
 
 ### Installing:
 
-If you have all the required apps/fonts, navigate to `~/.config`, clone this repo with `git clone --recurse-submodules https://github.com/Apeiros-46B/hlwm-dots` then `cd` into `hlwm-dots` and run the `install` script
+If you have all the required apps/fonts, navigate to `~/.config`, clone this repo with then `cd` into `hlwm-dots` and run the `install` script
 
 Add the following in your shell config: `export PATH="$HOME/.config/herbstluftwm/scripts:$PATH"`
 
