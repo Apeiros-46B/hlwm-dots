@@ -38,8 +38,6 @@ Install whichever way is easiest for you, required apps/fonts listed below:
 
 If you have all the required apps/fonts, navigate to `~/.config`, clone this repo with then `cd` into `hlwm-dots` and run the `install` script
 
-Add the following in your shell config: `export PATH="$HOME/.config/herbstluftwm/scripts:$PATH"`
-
 ### Updating:
 
 Run the `update` script in your `herbstluftwm` dir to update your config. This will backup your old config and replace it with a new version from here. If you changed `~/.config/glava` before updating, it will also be backed up

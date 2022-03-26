@@ -13,6 +13,21 @@ start() {
     polybar -rq -c /home/$(whoami)/.config/herbstluftwm/polybar/config.ini bar &
 }
 
+notif() {
+    icon="placeholder"
+    if [ $3 ]; then
+        icon="$3"
+    fi
+
+    time="2000"
+    if [ $4 ]; then
+        icon="$4"
+    fi
+
+    # this hint allows the notification to replace previous confirmation notifications
+    dunstify -h "string:x-canonical-private-synchronous:anything" -a "polybarutil" -i "$icon" -u "normal" -t "$time" "$1" "$2"
+}
+
 if [[ ! $1 ]]; then
     usage
 fi
@@ -26,8 +41,10 @@ case $1 in
     toggle)
         if pgrep -x polybar > /dev/null; then
             kill
+            notif "Polybar Toggle" "Polybar toggled off"
         else
             start
+            notif "Polybar Toggle" "Polybar toggled on"
         fi
         ;;
 
