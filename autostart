@@ -112,15 +112,20 @@ Alt=Mod1 # use alt as the secondary modifier
 # window manager core keybinds #
 bind $Mod-Shift-q                       quit
 bind $Mod-Shift-r                       reload
+bind $Mod-Shift-a                       keymode arcan
 bind $Mod-c                             close
 bind $Alt-F4                            close
 
 # rofi #
 spawn $Mod-space                        rofiutil 
+spawn $Mod-Shift-space                  rofiutil -d
 spawn $Mod-x                            rofiutil -l
+spawn $Mod-Control-s                    rofiutil -s
+spawn $Mod-Shift-c                      rofiutil -q
+spawn $Mod-Tab                          rofiutil -w
 
 # utilities #
-spawn $Mod-Shift-Escape                 $kitty_with_config -e btop
+spawn Control-Shift-Escape              $kitty_with_config -e btop
 spawn $Mod-u                            pavucontrol
 spawn $Mod-Shift-s                      flameshot gui
 spawn $Mod-Shift-p                      picomutil toggle
@@ -225,7 +230,6 @@ msebind $Alt-Button2                    call close
 
 # focus cycling #
 bind $Mod-BackSpace                     cycle_monitor
-bind $Mod-Tab                           cycle_all +1
 bind $Mod-Shift-Tab                     cycle_all -1
 bind $Alt-Tab                           cycle_all +1
 bind $Alt-Shift-Tab                     cycle_all -1

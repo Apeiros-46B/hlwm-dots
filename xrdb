@@ -18,7 +18,7 @@ xterm*font: *-fixed-*-*-*-18-*
 
 ! gray
 *.color0:       #445055
-*.color8:       #303C42
+*.color8:       #323D43
 
 ! red
 *.color1:       #e68183

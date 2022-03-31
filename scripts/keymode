@@ -1,0 +1,48 @@
+#!/bin/bash
+
+usage() {
+    printf "keymode <normal|arcan>\n"
+    exit 1
+}
+
+if [[ ! $1 ]]; then
+    usage
+fi
+
+hc() {
+    herbstclient "$@"
+}
+
+kitty_with_config="kitty -c $HOME/.config/herbstluftwm/kitty/kitty.conf"
+
+case $1 in
+    normal)
+        hc reload
+        ;;
+
+    arcan)
+        hc keyunbind --all
+        hc keybind Mod4-F1 close
+        hc keybind Mod4-F2 fullscreen toggle
+        hc keybind Mod4-Shift-F11 reload
+        hc keybind Mod4-Shift-F12 spawn keymode arcan
+        hc keybind Mod4-Shift-s spawn flameshot gui
+        hc keybind Control-Shift-space spawn rofiutil
+        hc keybind Control-Shift-Return spawn $kitty_with_config
+
+        # tag names & keys #
+        tag_names=( {1..8} )
+        tag_keys=( {1..8} 0 )
+
+        # tag navigation & sending windows to tags #
+        hc rename default "${tag_names[0]}" || true
+        for i in "${!tag_names[@]}" ; do
+            hc add "${tag_names[$i]}"
+            key="${tag_keys[$i]}"
+            if ! [ -z "$key" ] ; then
+                hc keybind "Control-Shift-$key" use_index "$i"
+                hc keybind "Control-Mod1-$key" move_index "$i"
+            fi
+        done
+        ;;
+esac

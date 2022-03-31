@@ -36,7 +36,11 @@ Install whichever way is easiest for you, required apps/fonts listed below:
 
 ### Installing:
 
-If you have all the required apps/fonts, navigate to `~/.config`, clone this repo with then `cd` into `hlwm-dots` and run the `install` script
+Clone the repo to your config dir: `git clone https://github.com/Apeiros-46B/hlwm-dots ~/.config/hlwm-dots`
+
+`cd` into it: `cd ~/.config/hlwm-dots`
+
+Run the `install` script: `./install`
 
 ### Updating:
 

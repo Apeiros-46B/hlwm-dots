@@ -41,7 +41,7 @@ else
             ;;
 
         dunst)
-            openconfig dunst
+            openconfig dunst/dunstrc
             ;;
 
         xrdb)
@@ -60,7 +60,7 @@ else
             if [ -e "${hlwm_conf_dir}/$1" ]; then
                 openconfig $1
             else
-                usage
+                openconfig autostart
             fi
             ;;
     esac

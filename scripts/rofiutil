@@ -84,18 +84,17 @@ else
 						-dmenu -mesg 'Tab for Autocomplete' -i -p 'Web Search')"
 				;;
 			-l|--logout)
-				case "$(rofi -sep "|" -dmenu -i -p 'System' -width 20 -hide-scrollbar \
-					-line-padding 4 -padding 20 -lines 4 <<< "Lock|Logout|Suspend|Reboot|Shutdown")" in
-					*Lock) i3lock-fancy ;;
-					*Suspend) loginctl suspend ;;
-					*Reboot) loginctl reboot ;;
-					*Shutdown) loginctl -i poweroff ;;
-                    *Logout) echo "awesome.quit()" | awesome-client && hc quit && killall openbox && i3-msg quit ;;
+				case "$(rofi -sep '|' -dmenu -i -p 'system' -width 20 -hide-scrollbar \
+					-line-padding 4 -padding 20 -lines 5 <<< 'logout|suspend|reboot|shutdown')" in
+                    *logout) echo "awesome.quit()" | awesome-client && hc quit && killall openbox && i3-msg quit ;;
+					*suspend) loginctl suspend ;;
+					*reboot) loginctl reboot ;;
+					*shutdown) loginctl -i poweroff ;;
 				esac
 				;;
             -s|--screenshot)
-                case "$(rofi -sep "|" -dmenu -i -p 'Screenshot' -width 20 -hide-scrollbar \
-					-line-padding 4 -padding 20 -lines 4 <<< "shot|ashot|cpshot|cpashot|flameshot-gui|flameshot-launcher")" in
+                case "$(rofi -sep '|' -dmenu -i -p 'screenshot' -width 20 -hide-scrollbar \
+                    -line-padding 4 -padding 20 -lines 6 <<< 'shot|ashot|cpshot|cpashot|flameshot|flameshot (launcher)')" in
 					shot) shot ;;
                     ashot) ashot ;;
                     cpshot) cpshot ;;
