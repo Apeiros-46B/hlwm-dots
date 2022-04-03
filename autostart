@@ -66,13 +66,16 @@ fi
 xsetroot -solid "#1d2226"
 
 # wallpaper #
+#feh --bg-scale ${bg_dir}/car_everforest.png
+#feh --bg-scale ${bg_dir}/car_everforest_2.png
+#feh --bg-scale ${bg_dir}/everforest_colors_dark.png
+#feh --bg-scale ${bg_dir}/everforest_colors_lighter.png
+#feh --bg-scale ${bg_dir}/everforest_colors_lightest.png
+#feh --bg-scale ${bg_dir}/everforest_colors_too_light.png
 feh --bg-scale ${bg_dir}/everforest_stairs.jpg
-
-# alternate wallpaper options #
-#feh --bg-scale ${bg_dir}/Light-Floral-01.png
-#feh --bg-scale ${bg_dir}/random-nord.png
-#feh --bg-scale ${bg_dir}/nord-noice.jpg
-#feh --bg-stretch ${bg_dir}/waves.jpg
+#feh --bg-scale ${bg_dir}/flowers_everforest.png
+#feh --bg-scale ${bg_dir}/ocean_front_everforest.png
+#feh --bg-scale ${bg_dir}/two_forests_everforest.png
 
 # key repeat rate #
 xset r rate 350 60
@@ -147,6 +150,10 @@ spawn Control-Shift-F1                  audioutil vol dec-default-sink
 spawn Control-F2                        audioutil vol dec
 spawn Control-F3                        audioutil vol inc
 spawn Control-F4                        audioutil vol mute
+
+# apps #
+spawn $Mod-Control-f                    pcmanfm
+spawm $Mod-Control-b                    brave
 
 # - client management - #
 
