@@ -328,5 +328,8 @@ done
 
 # -- finishing up -- #
 
+# detect monitors #
+hc detect_monitors
+
 # unlock #
 hc unlock
