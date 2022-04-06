@@ -17,36 +17,36 @@ xterm*font: *-fixed-*-*-*-18-*
 *.cursorColor:  #d8caac
 
 ! gray
-*.color0:       #445055
-*.color8:       #323D43
+*.color0:       #384348
+*.color8:       #859289
 
 ! red
 *.color1:       #e68183
-*.color9:       #e68183
+*.color9:       #eeaaab
 
 ! green
 *.color2:       #a7c080
-*.color10:      #a7c080
+*.color10:      #bfd1a3
 
 ! yellow
 *.color3:       #d9bb80
-*.color11:      #d9bb80
+*.color11:      #e5d1a9
 
 ! blue
 *.color4:       #89beba
-*.color12:      #89beba
+*.color12:      #a9d0cd
 
 ! purple
 *.color5:       #d3a0bc
-*.color13:      #d3a0bc
+*.color13:      #e4c4d5
 
-! cyan
+! cyan/teal
 *.color6:       #87c095
-*.color14:      #87c095
+*.color14:      #a8d1b2
 
 ! white
-*.color7:       #607279
-*.color15:      #384348
+*.color7:       #d8caac
+*.color15:      #e8e0ce
 
 ! Font settings
 Xft.hinting: 1

@@ -267,18 +267,18 @@ setattr    theme.title_align            'center'
 setattr    theme.padding_top            6
 setattr    theme.active.color           '#89beba'
 setattr    theme.title_color            '#2b3339'
-setattr    theme.normal.color           '#445055'
+setattr    theme.normal.color           '#384348'
 setattr    theme.urgent.color           '#e68183'
 setattr    theme.normal.title_color     '#d8caac'
 setattr    theme.inner_width            1
 setattr    theme.inner_color            black
-setattr    theme.border_width           2
-setattr    theme.floating.border_width  2
+setattr    theme.border_width           0
+setattr    theme.floating.border_width  0
 setattr    theme.floating.outer_width   1
 setattr    theme.floating.outer_color   black
 setattr    theme.active.inner_color     '#89beba'
 setattr    theme.urgent.inner_color     '#e68183'
-setattr    theme.normal.inner_color     '#303c42'
+setattr    theme.normal.inner_color     '#384248'
 
 # copy inner color to outer_color #
 for state in active urgent normal ; do

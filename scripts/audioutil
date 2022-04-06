@@ -139,7 +139,7 @@ case $1 in
                 ;;
 
             get-polybar)
-                result="$(audioutil vol get)"
+                result="$(pamixer --get-volume-human)"
 
                 if [[ "$result" == "muted" ]]; then
                     result="%{F#607279}${result}%{F-}"
