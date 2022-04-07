@@ -43,10 +43,10 @@ case $1 in
     toggle)
         if pgrep -x picom > /dev/null; then
             kill
-            notif "Compositor Toggle" "Compositor toggled off"
+            notif "Compositor" "Picom disabled"
         else
             start
-            notif "Compositor Toggle" "Compositor toggled on"
+            notif "Compositor" "Picom enabled"
         fi
         ;;
 

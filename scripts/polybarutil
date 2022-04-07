@@ -41,10 +41,10 @@ case $1 in
     toggle)
         if pgrep -x polybar > /dev/null; then
             kill
-            notif "Polybar Toggle" "Polybar toggled off"
+            notif "Status Bar" "Polybar disabled"
         else
             start
-            notif "Polybar Toggle" "Polybar toggled on"
+            notif "Status Bar" "Polybar enabled"
         fi
         ;;
 

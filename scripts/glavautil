@@ -1,7 +1,7 @@
 #!/bin/bash
 
 usage() {
-    printf "Usage: glavautil <toggle|start|get-recording-index>\n"
+    printf "Usage: glavautil <toggle|start>\n"
     exit 1
 }
 
@@ -41,15 +41,11 @@ case $1 in
     toggle)
         if pgrep -x glava > /dev/null; then
             kill
-            notif "Audio Visualizer Toggle" "Audio visualizer toggled off"
+            notif "Audio Visualizer" "GLava disabled"
         else
             start
-            notif "Audio Visualizer Toggle" "Audio visualizer toggled on"
+            notif "Audio Visualizer" "GLava enabled"
         fi
-        ;;
-
-    get-recording-index)
-        pactl list source-outputs | grep -e 'Source Output' -e 'glava' | grep -e "audio for glava" -B 1 | grep -e 'Source Output' | tr -d '#' | awk '{ print $3 }'
         ;;
 
     *)
