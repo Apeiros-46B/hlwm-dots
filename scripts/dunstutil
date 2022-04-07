@@ -1,7 +1,7 @@
 #!/bin/bash
 
 usage() {
-    printf "Usage: dunstutil <start|toggle|close|close-all>"    
+    printf "Usage: dunstutil <start|toggle|close|close-all>\n"    
     exit 1
 }
 
