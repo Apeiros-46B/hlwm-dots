@@ -28,14 +28,16 @@ glava_index() {
 
 adjust_vol() {
     vol="$(pamixer --get-volume-human)"
-
+    
     if [[ "$vol" == "muted" && "$1" != "-t" ]]; then
         exit 0
     fi
 
     sink_desc="$(default_sink_desc)"
-    
+
     pamixer --allow-boost $1
+    
+    vol="$(pamixer --get-volume-human)"
     
     prefix=" "
     notif_content="Volume: "
