@@ -45,13 +45,6 @@ setrule() {
     hc rule "$@"
 }
 
-# function for getting colors from xrdb #
-getcolor() {
-    local result_name="$1"
-    local result="$(echo $xrdb_values | egrep -w "$result_name" | awk '{print $2}')"
-    eval $result_name="$result"
-}
-
 # -- autostart -- #
 
 # add scripts dir to $PATH #
@@ -82,15 +75,6 @@ xset r rate 350 60
 
 # xrdb #
 xrdb "$HOME/.config/herbstluftwm/xrdb"
-xrdb_values="$(xrdb -query)"
-
-for num in {0..15}; do
-    getcolor "color$num"
-done
-
-for val in background foreground; do
-    getcolor "$val"
-done
 
 # picom #
 picomutil start

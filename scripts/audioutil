@@ -7,6 +7,22 @@ usage() {
     exit 1
 }
 
+cache() {
+    case $1 in
+        read)
+            cat "$HOME/.cache/audioutil/vol/$2"
+            ;;
+
+        write)
+            echo "$3" > "$HOME/.cache/audioutil/vol/$2"
+            ;;
+
+        *)
+            exit 1
+            ;;
+    esac
+}
+
 # TODO: Make this mess cache the sink names, descriptions, numbers, etc
 
 default_sink_num() {
@@ -14,7 +30,7 @@ default_sink_num() {
 }
 
 default_sink_desc() {
-    pamixer --get-default-sink | tail -1 | cut -d' ' -f 3- | tr -d '"'
+    pamixer --get-default-sink | tail -1 | cut -d ' ' -f 3- | tr -d '"'
 }
 
 default_sink_name() {
@@ -22,8 +38,8 @@ default_sink_name() {
 }
 
 glava_index() {
-    # TODO: Fix this absolute abomination
-    pactl list source-outputs | grep -e 'Source Output' -e 'glava' | grep -e "audio for glava" -B 1 | grep -e 'Source Output' | tr -d '#' | awk '{ print $3 }'
+    # TODO: Use awk for printing the first line only instead of having to use head as well
+    pactl list source-outputs | awk '/Source Output|application.name = "glava"/ { print $3 }' | head -1 | tr -d '#'
 }
 
 adjust_vol() {

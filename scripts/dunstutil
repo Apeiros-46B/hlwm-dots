@@ -1,0 +1,66 @@
+#!/bin/bash
+
+usage() {
+    printf "Usage: dunstutil <start|toggle|close|close-all>"    
+    exit 1
+}
+
+kill() {
+    killall -q dunst
+}
+
+start() {
+    dunst -conf "$HOME/.config/herbstluftwm/dunst/dunstrc"        
+}
+
+notif() {
+    icon="placeholder"
+    if [ $3 ]; then
+        icon="$3"
+    fi
+
+    time="2000"
+    if [ $4 ]; then
+        time="$4"
+    fi
+
+    # this hint allows the notification to replace previous confirmation notifications
+    dunstify -h "string:x-canonical-private-synchronous:anything" -a "dunstutil" -i "$icon" -u "normal" -t "$time" "$1" "$2"
+}
+
+if [[ ! $1 ]]; then
+    usage
+fi
+
+case $1 in
+    start)
+        kill
+        start
+        ;;
+
+    toggle)
+        is_paused="$(dunstctl is-paused)"
+
+        if $is_paused; then
+            dunstctl set-paused false
+            notif "Notifications" "Dunst notifications unpaused"
+        else
+            notif "Notifications" "Dunst notifications paused"
+            dunstctl set-paused true
+        fi
+        ;;
+
+    close)
+        dunstctl close
+        ;;
+
+    close-all)
+        dunstctl close-all
+        # comment this out if you don't like it, personally I keep it uncommented since I like consistency
+        notif "Notifications" "All notifications closed"
+        ;;
+
+    *)
+        usage
+        ;;
+esac
