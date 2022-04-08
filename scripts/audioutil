@@ -7,14 +7,28 @@ usage() {
     exit 1
 }
 
+# functions for caching
+
 cache() {
+    if [ ! -e $HOME/.cache/audioutil ]; then
+        mkdir -p $HOME/.cache/audioutil
+    fi
+
     case $1 in
         read)
-            cat "$HOME/.cache/audioutil/vol/$2"
+            cat "$HOME/.cache/audioutil/$2"
             ;;
 
         write)
-            echo "$3" > "$HOME/.cache/audioutil/vol/$2"
+            if [ ! -e "$HOME/.cache/audioutil/$2" ]; then
+                touch "$HOME/.cache/audioutil/$2"
+            fi
+
+            echo "$3" > "$HOME/.cache/audioutil/$2"
+            ;;
+
+        remove)
+            rm "$HOME/.cache/audioutil/$2" > /dev/null 2>&1
             ;;
 
         *)
@@ -23,23 +37,98 @@ cache() {
     esac
 }
 
-# TODO: Make this mess cache the sink names, descriptions, numbers, etc
+cache_all() {
+    direct_num="$(direct_num)"
+    cache write vol_sink_num "$direct_num"
 
-default_sink_num() {
+    direct_desc="$(direct_desc)"
+    cache write vol_sink_desc "$direct_desc"
+
+    direct_name="$(direct_name)"
+    cache write vol_sink_name "$direct_name"
+
+    direct_glava_index="$(direct_glava_index)"
+    cache write vol_glava_index "$direct_glava_index"
+}
+
+# directly recomputed
+
+direct_num() {
     pamixer --get-default-sink | tail -1 | awk '{ print $1 }'
 }
 
-default_sink_desc() {
+direct_desc() {
     pamixer --get-default-sink | tail -1 | cut -d ' ' -f 3- | tr -d '"'
 }
 
-default_sink_name() {
-    pamixer --get-default-sink | tail -1 | awk '{ print $2 }' | tr -d '"'
+direct_name() {
+    pactl get-default-sink
+}
+
+direct_glava_index() {
+    pactl list source-outputs | awk '/Source Output|application.name = "glava"/ { print $3 }' | head -1 | tr -d '#'
+}
+
+# cached/recompute when necessary (i.e. sink changed and/or cache does not exist)
+
+sink_num() {
+    if [ -e "$HOME/.cache/audioutil/vol_sink_num" ]; then
+        if [[ "$(direct_name)" != "$(cache read vol_sink_name)" ]]; then
+            cache_all
+            echo $direct_num
+        else
+            cache read vol_sink_num
+        fi
+    else
+        direct_num="$(direct_num)"
+        cache write vol_sink_num "$direct_num"
+        echo $direct_num
+    fi
+}
+
+sink_desc() {
+    if [ -e "$HOME/.cache/audioutil/vol_sink_desc" ]; then
+        if [[ "$(direct_name)" != "$(cache read vol_sink_name)" ]]; then
+            cache_all
+            echo $direct_desc
+        else
+            cache read vol_sink_desc
+        fi
+    else
+        direct_desc="$(direct_desc)"
+        cache write vol_sink_desc "$direct_desc"
+        echo $direct_desc
+    fi
+}
+
+sink_name() {
+    if [ -e "$HOME/.cache/audioutil/vol_sink_name" ]; then
+        if [[ "$(direct_name)" != "$(cache read vol_sink_name)" ]]; then
+            cache_all
+            echo $direct_name
+        else
+            cache read vol_sink_name
+        fi
+    else
+        direct_name="$(direct_name)"
+        cache write vol_sink_name "$direct_name"
+        echo $direct_name
+    fi
 }
 
 glava_index() {
-    # TODO: Use awk for printing the first line only instead of having to use head as well
-    pactl list source-outputs | awk '/Source Output|application.name = "glava"/ { print $3 }' | head -1 | tr -d '#'
+    if [ -e "$HOME/.cache/audioutil/vol_glava_index" ]; then
+        if [[ "$(direct_name)" != "$(cache read vol_sink_name)" ]]; then
+            cache_all
+            echo $direct_glava_index
+        else
+            cache read vol_glava_index
+        fi
+    else
+        direct_name="$(direct_name)"
+        cache write vol_sink_name "$direct_name"
+        echo $direct_name
+    fi
 }
 
 adjust_vol() {
@@ -49,7 +138,7 @@ adjust_vol() {
         exit 0
     fi
 
-    sink_desc="$(default_sink_desc)"
+    sink_desc="$(sink_desc)"
 
     pamixer --allow-boost $1
     
@@ -69,7 +158,7 @@ adjust_vol() {
 }
 
 change_sink() {
-    sink="$(default_sink_num)"
+    sink="$(sink_num)"
     max_sink="$(pamixer --list-sinks | tail -1 | awk '{ print $1 }')"
 
     case $1 in
@@ -94,8 +183,8 @@ change_sink() {
 
     pactl set-default-sink "$new_sink"
 
-    new_sink_name="$(default_sink_name)"
-    new_sink_desc="$(default_sink_desc)"
+    new_sink_name="$(sink_name)"
+    new_sink_desc="$(sink_desc)"
     
     if pgrep -x glava; then
         pactl move-source-output "$(glava_index)" "${new_sink_name}.monitor"
@@ -139,7 +228,7 @@ case $1 in
                 ;;
 
             get-default-sink)
-                default_sink_num
+                sink_num
                 ;;
 
             inc)
