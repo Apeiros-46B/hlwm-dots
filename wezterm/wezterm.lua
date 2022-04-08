@@ -18,6 +18,8 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 end)
 
 return {
+    exit_behavior="Close",
+
     font = wezterm.font('JetBrainsMono Nerd Font'),
     font_size = 13.0,
     font_rules = {
