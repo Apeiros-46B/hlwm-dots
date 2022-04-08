@@ -22,36 +22,54 @@ xterm*font: *-fixed-*-*-*-18-*
 
 ! red
 *.color1:       #e68183
-*.color9:       #eeaaab
+*.color9:       #e68183
 
 ! green
 *.color2:       #a7c080
-*.color10:      #bfd1a3
+*.color10:      #a7c080
 
 ! yellow
 *.color3:       #d9bb80
-*.color11:      #e5d1a9
+*.color11:      #d9bb80
 
 ! blue
 *.color4:       #89beba
-*.color12:      #a9d0cd
+*.color12:      #89beba
 
 ! purple
 *.color5:       #d3a0bc
-*.color13:      #e4c4d5
+*.color13:      #d3a0bc
 
 ! cyan/teal
 *.color6:       #87c095
-*.color14:      #a8d1b2
+*.color14:      #87c095
 
 ! white
 *.color7:       #d8caac
-*.color15:      #e8e0ce
+*.color15:      #d8caac
 
-! Font settings
+! -- Font settings -- !
 Xft.hinting: 1
 Xft.hintstyle: hintslight
 Xft.antialias: 1
 Xft.rgba: rgb
+
+! -- URxvt settings -- !
+URxvt.font: xft:JetBrainsMono Nerd Font:style=Regular:size=13
+URxvt.boldFont: xft:JetBrainsMono Nerd Font:style=Bold:size=13
+URxvt.italicFont: xft:JetBrainsMono Nerd Font:style=Italic:size=13
+URxvt.boldItalicFont: xft:JetBrainsMono Nerd Font:style=Bold Italic:size=13
+URxvt.letterSpace: 0
+URxvt.lineSpace: 0
+URxvt.geometry: 92x24
+URxvt.internalBorder: 24
+URxvt.cursorBlink: true
+URxvt.cursorUnderline: false
+URxvt.saveline: 2048
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.urgentOnBell: true
+URxvt.depth: 24
+URxvt.iso14755: false
 
 ! vim:ft=xdefaults
