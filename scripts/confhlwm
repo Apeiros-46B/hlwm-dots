@@ -56,6 +56,10 @@ else
             openconfig kitty/kitty.conf
             ;;
 
+        wezterm)
+            openconfig wezterm/wezterm.lua
+            ;;
+
         *)
             if [ -e "${hlwm_conf_dir}/$1" ]; then
                 openconfig $1

@@ -13,19 +13,20 @@ Install whichever way is easiest for you, required apps/fonts listed below:
 
 **Apps/programs:**
 
-- Herbstluftwm
-- holybar
+- herbstluftwm
+- polybar
 - rofi
 - picom (ibhagwan fork)
 - dunst
-- kitty
+- wezterm
 - feh
 - playerctl
 - pamixer
-- alacritty *(optional)*
-- cool-retro-term *(optional)*
+- kitty *(optional)*
 - flameshot *(optional)*
 - spotify *(optional, the music scripts are designed for spotify so you might have to modify them if you use something else for music)*
+- pcmanfm *(optional, super+ctrl+f spawns pcmanfm by default)*
+- brave *(optional, super+ctrl+b spawns brave by default)*
 
 **Fonts:**
 
@@ -48,7 +49,7 @@ Run the `update` script in your `herbstluftwm` dir to update your config. This w
 
 ### Screenshot:
 
-![screenshot](misc/herbstluft_rice.png "Screenshot of my rice")
+![screenshot](assets/herbstluft_rice_v2.png "Screenshot of my rice")
 
 ### Notes:
 

@@ -12,41 +12,41 @@ xterm*font: *-fixed-*-*-*-18-*
 ! -- Colors -- !
 
 ! misc
-*.foreground:   #d8caac
+*.foreground:   #d3c6aa
 *.background:   #2b3339
-*.cursorColor:  #d8caac
+*.cursorColor:  #d3c6aa
 
 ! gray
 *.color0:       #384348
 *.color8:       #859289
 
 ! red
-*.color1:       #e68183
-*.color9:       #e68183
+*.color1:       #e68e80
+*.color9:       #e68e80
 
 ! green
 *.color2:       #a7c080
 *.color10:      #a7c080
 
 ! yellow
-*.color3:       #d9bb80
-*.color11:      #d9bb80
+*.color3:       #ddbc7f
+*.color11:      #ddbc7f
 
 ! blue
-*.color4:       #89beba
-*.color12:      #89beba
+*.color4:       #7fbbb3
+*.color12:      #7fbbb3
 
 ! purple
-*.color5:       #d3a0bc
-*.color13:      #d3a0bc
+*.color5:       #d699b6
+*.color13:      #d699b6
 
 ! cyan/teal
-*.color6:       #87c095
-*.color14:      #87c095
+*.color6:       #83c092
+*.color14:      #83c092
 
 ! white
-*.color7:       #d8caac
-*.color15:      #d8caac
+*.color7:       #d3c6aa
+*.color15:      #d3c6aa
 
 ! -- Font settings -- !
 Xft.hinting: 1
@@ -55,21 +55,22 @@ Xft.antialias: 1
 Xft.rgba: rgb
 
 ! -- URxvt settings -- !
-URxvt.font: xft:JetBrainsMono Nerd Font:style=Regular:size=13
-URxvt.boldFont: xft:JetBrainsMono Nerd Font:style=Bold:size=13
-URxvt.italicFont: xft:JetBrainsMono Nerd Font:style=Italic:size=13
-URxvt.boldItalicFont: xft:JetBrainsMono Nerd Font:style=Bold Italic:size=13
-URxvt.letterSpace: 0
-URxvt.lineSpace: 0
+URxvt.font: xft:agave Nerd Font:style=r:size=20
+! URxvt.boldFont: xft:JetBrainsMono Nerd Font:style=Bold:size=13
+! URxvt.italicFont: xft:JetBrainsMono Nerd Font:style=Italic:size=13
+! URxvt.boldItalicFont: xft:JetBrainsMono Nerd Font:style=Bold Italic:size=13
+URxvt.intensityStyles: false
+URxvt.letterSpace: -1
+URxvt.lineSpace: 1
 URxvt.geometry: 92x24
-URxvt.internalBorder: 24
+URxvt.internalBorder: 16
 URxvt.cursorBlink: true
 URxvt.cursorUnderline: false
-URxvt.saveline: 2048
+URxvt.saveline: 8192
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
 URxvt.urgentOnBell: true
-URxvt.depth: 24
+URxvt.depth: 16
 URxvt.iso14755: false
 
 ! vim:ft=xdefaults

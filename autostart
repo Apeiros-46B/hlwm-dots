@@ -13,7 +13,8 @@ hc emit_hook reload
 # info #
 script_dir="$HOME/.config/herbstluftwm/scripts"
 bg_dir="$HOME/.config/herbstluftwm/wallpapers"
-kitty_with_config="kitty -c $HOME/.config/herbstluftwm/kitty/kitty.conf"
+kitty="kitty -c $HOME/.config/herbstluftwm/kitty/kitty.conf"
+wezterm="wezterm --config-file $HOME/.config/herbstluftwm/wezterm/wezterm.lua"
 
 # helper functions for slightly cleaner config #
 bind() {
@@ -112,7 +113,7 @@ spawn $Mod-Shift-c                      rofiutil -q
 spawn $Mod-Tab                          rofiutil -w
 
 # utilities #
-spawn Control-Shift-Escape              $kitty_with_config -e btop
+spawn Control-Shift-Escape              $wezterm start btop
 spawn $Mod-u                            pavucontrol
 spawn $Mod-Shift-s                      flameshot gui
 spawn $Mod-Shift-p                      picomutil toggle
@@ -120,9 +121,8 @@ spawn $Mod-Shift-d                      polybarutil toggle
 spawn $Mod-Shift-g                      glavautil toggle
 
 # terminals #
-spawn $Mod-Return                       $kitty_with_config
-spawn $Mod-Shift-Return                 alacritty
-spawn $Mod-Control-Return               cool-retro-term
+spawn $Mod-Return                       $wezterm
+spawn $Mod-Shift-Return                 $kitty
 
 # media & volume control #
 spawn Control-F6                        audioutil media prev
@@ -235,7 +235,7 @@ bind $Mod-i                             jumpto urgent
 setattr    theme.tiling.reset           1
 setattr    theme.floating.reset         1
 setting    frame_border_active_color    '#a7c080'
-setting    frame_border_normal_color    '#445055'
+setting    frame_border_normal_color    '#384348'
 setting    frame_bg_normal_color        '#2b333900'
 setting    frame_bg_active_color        '#2b333900'
 setting    frame_border_width           4
@@ -249,20 +249,20 @@ setattr    theme.title_height           16
 setattr    theme.title_font             'JetBrainsMono Nerd Font:pixelsize=14:style=bold'
 setattr    theme.title_align            'center'
 setattr    theme.padding_top            6
-setattr    theme.active.color           '#89beba'
+setattr    theme.active.color           '#7fbbb3'
 setattr    theme.title_color            '#2b3339'
 setattr    theme.normal.color           '#384348'
-setattr    theme.urgent.color           '#e68183'
-setattr    theme.normal.title_color     '#d8caac'
+setattr    theme.urgent.color           '#e68e80'
+setattr    theme.normal.title_color     '#d3c6aa'
 setattr    theme.inner_width            1
 setattr    theme.inner_color            black
 setattr    theme.border_width           0
 setattr    theme.floating.border_width  0
 setattr    theme.floating.outer_width   1
 setattr    theme.floating.outer_color   black
-setattr    theme.active.inner_color     '#89beba'
-setattr    theme.urgent.inner_color     '#e68183'
-setattr    theme.normal.inner_color     '#384248'
+setattr    theme.active.inner_color     '#7fbbb3'
+setattr    theme.urgent.inner_color     '#e68e80'
+setattr    theme.normal.inner_color     '#384348'
 
 # copy inner color to outer_color #
 for state in active urgent normal ; do
@@ -271,7 +271,7 @@ for state in active urgent normal ; do
 done
 
 setattr    theme.active.outer_width     1
-setattr    theme.background_color       '#141414'
+setattr    theme.background_color       '#2b3339'
 
 # gaps, padding & margins #
 setting    window_gap                   8
