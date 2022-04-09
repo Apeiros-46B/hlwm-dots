@@ -5,13 +5,13 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
         return {
             {Background={Color="#a7c080"}},
             {Foreground={Color="#2b3339"}},
-            {Text=" " .. tab.active_pane.title .. " "},
+            {Text="  " .. tab.active_pane.title .. "  "},
         }
     else
         return {
             {Background={Color="#384348"}},
             {Foreground={Color="#d3c6aa"}},
-            {Text=" " .. tab.active_pane.title .. " "},
+            {Text="  " .. tab.active_pane.title .. "  "},
         }
     end
     return tab.active_pane.title

@@ -5,7 +5,7 @@ artist_song+=" - "
 artist_song+=$(playerctl -p spotify metadata title 2>&-)
 
 if pgrep -x spotify > /dev/null; then
-	echo "$artist_song"
+	echo "  $artist_song  "
 else
-	echo "Nothing playing"
+	echo "  Nothing playing  "
 fi

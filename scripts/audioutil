@@ -247,14 +247,28 @@ case $1 in
                 pamixer --get-volume-human
                 ;;
 
+            # get-polybar)
+                # result="$(pamixer --get-volume-human)"
+
+                # if [[ "$result" == "muted" ]]; then
+                    # result="%{F#859289}${result}%{F-}"
+                # fi
+
+                # echo "  $result  "
+                # ;;
+
             get-polybar)
-                result="$(pamixer --get-volume-human)"
+                result=$(pamixer --get-volume-human)
 
                 if [[ "$result" == "muted" ]]; then
-                    result="%{F#607279}${result}%{F-}"
+                    icon=""
+                    result="%{B#384348}%{F#859289}  ${result}  %{F-}%{B-}"
+                else
+                    icon=""
+                    result="%{B#384348}%{F#d8caac}  ${result}  %{F-}%{B-}"
                 fi
 
-                echo "$result"
+                echo "%{B#a7c080}%{F#2b3339} ${icon} %{B#384348}%{F-}${result}"
                 ;;
 
             *)
