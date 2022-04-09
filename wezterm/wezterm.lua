@@ -19,6 +19,7 @@ end)
 
 return {
     exit_behavior="Close",
+    check_for_updates = false,
 
     font = wezterm.font('JetBrainsMono Nerd Font'),
     font_size = 13.0,
