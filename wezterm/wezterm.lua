@@ -37,6 +37,7 @@ return {
             font = wezterm.font('JetBrainsMono Nerd Font', { bold = true }),
         },
     },
+    warn_about_missing_glyphs = false,
 
     window_padding = {
         left = "2cell",
