@@ -68,7 +68,7 @@ return {
 
             new_tab = {
                 bg_color = "#384348",
-                fg_color = "#859289",
+                fg_color = "#607279",
             },
         }
     },
@@ -101,7 +101,7 @@ return {
             split = '#2b3339',
 
             ansi = { '#384348', '#e67e80', '#a7c080', '#ddbc7f', '#7fbbb3', '#d699b6', '#83c092', '#d3c6aa' },
-            brights = { '#859289', '#e67e80', '#a7c080', '#ddbc7f', '#7fbbb3', '#d699b6', '#83c092', '#d3c6aa' },
+            brights = { '#607279', '#e67e80', '#a7c080', '#ddbc7f', '#7fbbb3', '#d699b6', '#83c092', '#d3c6aa' },
 
             -- indexed = { [136] = '#af8700' },
         },
