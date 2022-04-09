@@ -54,23 +54,4 @@ Xft.hintstyle: hintslight
 Xft.antialias: 1
 Xft.rgba: rgb
 
-! -- URxvt settings -- !
-URxvt.font: xft:agave Nerd Font:style=r:size=20
-! URxvt.boldFont: xft:JetBrainsMono Nerd Font:style=Bold:size=13
-! URxvt.italicFont: xft:JetBrainsMono Nerd Font:style=Italic:size=13
-! URxvt.boldItalicFont: xft:JetBrainsMono Nerd Font:style=Bold Italic:size=13
-URxvt.intensityStyles: false
-URxvt.letterSpace: -1
-URxvt.lineSpace: 1
-URxvt.geometry: 92x24
-URxvt.internalBorder: 16
-URxvt.cursorBlink: true
-URxvt.cursorUnderline: false
-URxvt.saveline: 8192
-URxvt.scrollBar: false
-URxvt.scrollBar_right: false
-URxvt.urgentOnBell: true
-URxvt.depth: 16
-URxvt.iso14755: false
-
 ! vim:ft=xdefaults

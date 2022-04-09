@@ -11,7 +11,7 @@ kill() {
 }
 
 start() {
-    picom --config /home/$(whoami)/.config/herbstluftwm/picom.conf &
+    picom --experimental-backend --config /home/$(whoami)/.config/herbstluftwm/picom.conf &
     #flashfocus -t 250 -o 0.5 -l always --no-flash-fullscreen &
 }
 
