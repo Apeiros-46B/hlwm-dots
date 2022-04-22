@@ -10,16 +10,16 @@ usage() {
 # functions for caching
 
 cache() {
-    if [ ! -e $HOME/.cache/audioutil ]; then
-        mkdir -p $HOME/.cache/audioutil
-    fi
-
     case $1 in
         read)
-            cat "$HOME/.cache/audioutil/$2"
+            cat "$HOME/.cache/audioutil/$2" 2> /dev/null || echo
             ;;
 
         write)
+            if [ ! -e $HOME/.cache/audioutil ]; then
+                mkdir -p $HOME/.cache/audioutil
+            fi
+
             if [ ! -e "$HOME/.cache/audioutil/$2" ]; then
                 touch "$HOME/.cache/audioutil/$2"
             fi
@@ -132,29 +132,16 @@ glava_index() {
 }
 
 adjust_vol() {
-    vol="$(pamixer --get-volume-human)"
-    
-    if [[ "$vol" == "muted" && "$1" != "-t" ]]; then
-        exit 0
-    fi
-
-    sink_desc="$(sink_desc)"
-
     pamixer --allow-boost $1
-    
     vol="$(pamixer --get-volume-human)"
-    
     prefix=" "
-    notif_content="Volume: "
-
-    if [ "$vol" = "muted" ]; then
+    
+    if [[ "$vol" == "muted" ]]; then
         prefix=" "
-        notif_content+="Muted"
-    else
-        notif_content+="${vol}"
+        vol="Muted"
     fi
 
-    notif "$prefix$sink_desc" "$notif_content"
+    notif "${prefix}Volume: ${vol}"
 }
 
 change_sink() {
@@ -190,7 +177,7 @@ change_sink() {
         pactl move-source-output "$(glava_index)" "${new_sink_name}.monitor"
     fi
 
-    notif "Sink changed" "<u>${new_sink_desc} (#$new_sink)</u>\nhas been selected as the default sink"
+    notif " ${new_sink_desc} (#$new_sink)" "has been selected as the default sink"
 }
 
 notif() {
@@ -232,11 +219,11 @@ case $1 in
                 ;;
 
             inc)
-                adjust_vol "-i 4"
+                adjust_vol "-i 4" '+ 4'
                 ;;
 
             dec)
-                adjust_vol "-d 4"
+                adjust_vol "-d 4" '- 4'
                 ;;
 
             mute)

@@ -17,7 +17,7 @@
 #define AMPLIFY 300
 /* Bar color */ 
 /* define COLOR (#cc3333 * ((d / 40) + 1)) */
-#define COLOR mix(#28282a, #526371, clamp(d / 80, 0, 1))
+#define COLOR mix(#2b3339, #384348, clamp(d / 80, 0, 1))
 /* Angle (in radians) for how much to rotate the visualizer */
 #define ROTATE (PI)
 /* Whether to switch left/right audio buffers */

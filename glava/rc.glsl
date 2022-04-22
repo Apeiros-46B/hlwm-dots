@@ -13,6 +13,7 @@
    as a 2D sampler.
    
    See documentation for more details. */
+/* #request mod radial */
 #request mod bars
 
 /* Window hints */
@@ -48,8 +49,8 @@
 #request settitle "GLava"
 
 /* Window geometry (x, y, width, height) */
-// uncomment following line if using radial visualizer
-// #request setgeometry 660 240 600 600
+/* uncomment following line if using radial visualizer */
+/* #request setgeometry 660 240 600 600 */
 #request setgeometry 660 10 600 600
 
 /* Window background color (RGB format).
